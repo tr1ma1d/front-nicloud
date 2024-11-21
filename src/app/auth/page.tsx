@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 
-export default function Home(){
+export default function Home() {
     const [isLogin, setLoginForm] = useState(true);
     const [formData, setFormData] = useState({
         username: "",
@@ -10,7 +10,7 @@ export default function Home(){
         email: "",
         phone: "",
     });
-    
+    //вместо того, чтобы создавать кучу useState не нужных, можно просто обойтись этим методом
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target; // Извлекаем name и value из события
         setFormData((prevFormData) => ({
@@ -18,7 +18,7 @@ export default function Home(){
             [name]: value,  // Обновляем значение для соответствующего поля
         }));
     };
-    const hangleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isLogin) {
             // Если отображается форма Login
@@ -32,16 +32,31 @@ export default function Home(){
         }
     }
 
-    return(
+    const toggleForm = () => {
+        setLoginForm(!isLogin);
+    }
+
+    return (
         <div>
-            
+            <h1>{isLogin ? "Login" : "Registration"}</h1>
+            {isLogin ? <LoginForm formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit} /> :
+                <RegisterForm
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit} />}
+
+            <button onClick={toggleForm}>
+                {isLogin ? "Перейти к регистрации" : "Перейти к логину"}
+            </button>
         </div>
     );
 }
 
 
-const RegisterForm = ({formData, handleSubmit, handleChange}: any) =>{
-    return(
+const RegisterForm = ({ formData, handleSubmit, handleChange }: any) => {
+    return (
         <form onSubmit={handleSubmit}>
             <input type="text" placeholder="Username" value={formData.username} onChange={handleChange} />
             <input type="password" placeholder="Password" value={formData.password} onChange={handleChange} />
@@ -53,8 +68,8 @@ const RegisterForm = ({formData, handleSubmit, handleChange}: any) =>{
     )
 }
 
-const LoginForm = ({formData, handleSubmit, handleChange}: any) =>{
-    return(
+const LoginForm = ({ formData, handleSubmit, handleChange }: any) => {
+    return (
         <form onSubmit={handleSubmit}>
             <input type="text" placeholder="Username" value={formData.username} onChange={handleChange} />
             <input type="password" placeholder="Password" value={formData.password} onChange={handleChange} />
