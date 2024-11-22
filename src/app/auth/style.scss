@@ -1,9 +1,11 @@
 
 $primarycolor: #fff;
 $primarytext: #000;
+$titlesize: 30px;
 
-
-
+body{
+    background: linear-gradient(#399999, #9198e5);
+}
 .auth-content{
     display: flex;
     flex-direction: column;
@@ -12,6 +14,15 @@ $primarytext: #000;
     align-items: center;
     height: 100vh;
    
+}
+.navigation-auth{
+    margin-top: 15px;
+}
+.navigation-auth:hover{
+    color: #ccc;
+}
+.auth_title{
+    font-size: $titlesize;
 }
 .auth-container{
     display: flex;

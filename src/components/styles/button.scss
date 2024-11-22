@@ -1,0 +1,14 @@
+$bluethemecolor: rgb(100, 189, 184);
+$hoverblue: rgb(49, 110, 107);
+.auth-button{
+    background-color: $bluethemecolor;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: 0.2s background-color ease-in-out;
+}
+.auth-button:hover{
+    background-color: $hoverblue;
+}

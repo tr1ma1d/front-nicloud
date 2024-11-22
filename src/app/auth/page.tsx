@@ -1,7 +1,10 @@
 'use client'
+import "./style.scss";
 import { useState } from "react";
 import Image from "next/image";
-import "./style.scss";
+import ButtonAuth from "@/components/ButtonAuth";
+
+
 export default function Home() {
     const [isLogin, setLoginForm] = useState(true);
     const [formData, setFormData] = useState({
@@ -19,27 +22,15 @@ export default function Home() {
             [name]: value,  // Обновляем значение для соответствующего поля
         }));
     };
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (isLogin) {
-            // Если отображается форма Login
-            console.log("Login Data:", {
-                username: formData.username,
-                password: formData.password,
-            });
-        } else {
-            // Если отображается форма Register
-            console.log("Register Data:", formData);
-        }
-    }
+
 
     const toggleForm = () => {
         setLoginForm(!isLogin);
     }
 
     return (
-        <div className = "auth-content">
-            <h1>{isLogin ? "Login" : "Registration"}</h1>
+        <div className="auth-content">
+            <h1 className="auth_title">{isLogin ? "Login" : "Registration"}</h1>
             <div className="auth-container">
                 <div className="auth__image">
                     <Image src="/river-blue.jpg"
@@ -51,14 +42,14 @@ export default function Home() {
                 <div className="form-container">
                     {isLogin ? <LoginForm formData={formData}
                         handleChange={handleChange}
-                        handleSubmit={handleSubmit} /> :
+                    /> :
                         <RegisterForm
                             formData={formData}
                             handleChange={handleChange}
-                            handleSubmit={handleSubmit} />}
+                        />}
                 </div>
             </div>
-            <button onClick={toggleForm}>
+            <button className ="navigation-auth" onClick={toggleForm}>
                 {isLogin ? "Перейти к регистрации" : "Перейти к логину"}
             </button>
         </div>
@@ -66,9 +57,16 @@ export default function Home() {
 }
 
 
-const RegisterForm = ({ formData, handleSubmit, handleChange }: any) => {
+const RegisterForm = ({ formData, handleChange }: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // Вы можете сделать что-то с formData здесь
+        console.log("Register Data:", formData);
+    };
+    
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
+            
             <input
                 type="text"
                 name="username" // Указываем имя поля
@@ -104,12 +102,17 @@ const RegisterForm = ({ formData, handleSubmit, handleChange }: any) => {
                 value={formData.phone}
                 onChange={handleChange}
             />
-            <button type="submit">Submit</button>
+           <ButtonAuth onCLick={handleSubmit}>Регистрация</ButtonAuth>
         </form>
     );
 };
 
-const LoginForm = ({ formData, handleSubmit, handleChange }: any) => {
+const LoginForm = ({ formData, handleChange }: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // Вы можете сделать что-то с formData здесь
+        console.log(formData.username + ": " + formData.password + "this is login form");
+    };
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
             <input
@@ -126,7 +129,7 @@ const LoginForm = ({ formData, handleSubmit, handleChange }: any) => {
                 value={formData.password}
                 onChange={handleChange}
             />
-            <button type="submit">Login</button>
+            <ButtonAuth onCLick={handleSubmit}>Войти</ButtonAuth>
         </form>
     );
 };
