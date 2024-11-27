@@ -1,13 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import userReducer from './userSlice'; // Импортируем редьюсер из userSlice
 
 export const store = configureStore({
     reducer: {
-
-    }
+        user: userReducer, // Добавляем редьюсер в хранилище
+    },
 });
-
-
-export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
-
+// Тип для корневого состояния (RootState)
+export type RootState = ReturnType<typeof store.getState>;
+// Тип для dispatch
+export type AppDispatch = typeof store.dispatch;

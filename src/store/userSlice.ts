@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from "./store";
 
-interface UserState{
+interface UserState {
     id: string;
     username: string;
     password: string;
@@ -9,8 +9,7 @@ interface UserState{
     phone: string;
 }
 
-
-const initialState : UserState = {
+const initialState: UserState = {
     id: '',
     username: '',
     password: '',
@@ -18,17 +17,23 @@ const initialState : UserState = {
     phone: '',
 };
 
-
-
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        // Устанавливаем нового пользователя
         setUser: (state, action: PayloadAction<UserState>) => {
             return action.payload;
         },
-        updateUser: (state, action: PayloadAction<UserState>) =>{
-            return {...state,...action.payload};
-        }, 
-    },  
+        // Обновляем части информации о пользователе
+        updateUser: (state, action: PayloadAction<Partial<UserState>>) => {
+            return { ...state, ...action.payload };
+        },
+    },
 });
+
+// Экспортируем действия, чтобы использовать их в компонентах
+export const { setUser, updateUser } = userSlice.actions;
+
+// Экспортируем редьюсер для подключения к хранилищу
+export default userSlice.reducer;
