@@ -1,6 +1,7 @@
 'use client'
 import "./style.scss";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ButtonAuth from "@/components/ButtonAuth";
 import AuthApi from "@/api/UserApi";
@@ -47,6 +48,7 @@ export default function Home() {
                         <RegisterForm
                             formData={formData}
                             handleChange={handleChange}
+                            toggleForm={toggleForm}
                         />}
                 </div>
             </div>
@@ -58,13 +60,16 @@ export default function Home() {
 }
 
 
-const RegisterForm = ({ formData, handleChange }: any) => {
+const RegisterForm = ({ formData, handleChange, toggleForm }: any) => {
+    const router = useRouter();
     const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Вы можете сделать что-то с formData здесь
         await AuthApi.registerUser(formData.username, formData.password, formData.email, formData.phone) // Вызываем вашу API для регистрации
             .then((response) => {
                 console.log("Register response:", response);
+                toggleForm();
+                
             })
             .catch((error) => {
                 console.error("Register error:", error);
@@ -116,12 +121,18 @@ const RegisterForm = ({ formData, handleChange }: any) => {
 };
 
 const LoginForm = ({ formData, handleChange }: any) => {
+    const router = useRouter();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
         e.preventDefault();
         // Вы можете сделать что-то с formData здесь
         var user = await AuthApi.loginUser(formData.username, formData.password);
+       
         console.log('USER: ' + user.username, user.password);
         console.log(formData.username + ": " + formData.password + "this is login form");
+        if(user){
+            router.replace('/main');
+        }
     };
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
