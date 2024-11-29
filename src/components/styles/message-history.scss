@@ -1,0 +1,39 @@
+$bg: #434343;
+$border: #494949;
+$message: #a5a5a5;
+$username-color: #d2d2d2;
+
+.history-message{
+    margin: 0 20px;
+    background-color: $bg;
+    border-radius: 5px;
+    display: flex;
+    padding: 10px 10px;
+    .img__container{
+        position: relative;
+        width: 50px;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 3px solid $border;
+        box-shadow: 0 0 7px #000;
+        margin-right: 10;
+    }
+    .history_text{
+        display: start;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .his__username{
+        color: $username-color;
+        font-size: 18px;
+        line-height: 14px;
+        font-weight: 200;
+    }
+    .his__context{
+        color: $message;
+        font-size: 12px;
+   
+
+    }
+}

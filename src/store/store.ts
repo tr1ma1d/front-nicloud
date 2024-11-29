@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from './userSlice'; // Импортируем редьюсер из userSlice
 
-export const store = configureStore({
+const store = configureStore({
     reducer: {
         user: userReducer, // Добавляем редьюсер в хранилище
     },
@@ -10,3 +10,5 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 // Тип для dispatch
 export type AppDispatch = typeof store.dispatch;
+
+export default store;

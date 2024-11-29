@@ -2,9 +2,13 @@
 import "./style.scss";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import ButtonAuth from "@/components/ButtonAuth";
 import AuthApi from "@/api/UserApi";
+import { AppDispatch } from "@/store/store";
+import { setUser } from "@/store/userSlice";
+import { UserState } from "@/store/userSlice"; // Импортируем UserState
 
 
 export default function Home() {
@@ -62,14 +66,14 @@ export default function Home() {
 
 const RegisterForm = ({ formData, handleChange, toggleForm }: any) => {
     const router = useRouter();
-    const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Вы можете сделать что-то с formData здесь
         await AuthApi.registerUser(formData.username, formData.password, formData.email, formData.phone) // Вызываем вашу API для регистрации
             .then((response) => {
                 console.log("Register response:", response);
                 toggleForm();
-                
+
             })
             .catch((error) => {
                 console.error("Register error:", error);
@@ -122,18 +126,31 @@ const RegisterForm = ({ formData, handleChange, toggleForm }: any) => {
 
 const LoginForm = ({ formData, handleChange }: any) => {
     const router = useRouter();
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const dispatch: AppDispatch = useDispatch();
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Вы можете сделать что-то с formData здесь
-        var user = await AuthApi.loginUser(formData.username, formData.password);
-       
-        console.log('USER: ' + user.username, user.password);
-        console.log(formData.username + ": " + formData.password + "this is login form");
-        if(user){
+        try {
+            // Логинимся и получаем объект, который должен соответствовать UserState
+            const user = await AuthApi.loginUser(formData.username, formData.password);
+
+            // Убедитесь, что user соответствует типу UserState
+            const userData: UserState = {
+                id: user.id, // предположим, что в ответе от API есть id
+                username: user.username,
+                password: user.password,
+                email: user.email,
+                phone: user.phone,
+            };
+
+            // Передаем данные в Redux
+            dispatch(setUser(userData)); // Передаем сериализуемый объект с нужной структурой
             router.replace('/main');
+        } catch (error) {
+            console.error("Login error:", error);
         }
     };
+
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
             <input
@@ -153,4 +170,4 @@ const LoginForm = ({ formData, handleChange }: any) => {
             <ButtonAuth onCLick={handleSubmit}>Войти</ButtonAuth>
         </form>
     );
-};
+}

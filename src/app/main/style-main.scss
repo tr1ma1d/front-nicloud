@@ -1,0 +1,68 @@
+
+$friend-back: rgba(0, 0, 0, 0.5);
+$main-back: rgba(206, 206, 206, 0.822);
+$profile-back: #2D2D2D;
+.main-page{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../../public/bg.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    .friend-list{
+        width: 276px;
+        height: 820px; 
+        background-color: white;
+        border-radius: 20px;
+        background-color: $friend-back;// Полупрозрачный фон
+        backdrop-filter: blur(5px);
+
+        
+        .profile{
+            width: 241px;
+            height: 233px;
+            background-color: $profile-back; 
+            margin: 18px auto;
+            border-radius: 13px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            .profile__image{
+                width: 120px;
+                aspect-ratio: 1/1;
+                overflow: hidden;
+                position: relative;
+                border-radius: 50%;
+                border: 5px solid #494949;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.7);
+               
+            }
+            .profile-info{
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile__text-username{
+                font-size: 24px;
+                color: #FFF;
+                
+            }
+            .profile__text-email{
+                font-size: 14px;
+                color: #7E7E7E;
+                font-weight: 200;
+            }
+        }
+    }
+    .message-block{
+        background-color: $main-back;
+        backdrop-filter: blur(5px);
+        width: 820px;
+        height: 820px;
+        border-radius: 20px;
+    }
+
+}
