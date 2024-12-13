@@ -1,7 +1,7 @@
 
 import './styles/message-history.scss';
 import Image from 'next/image';
-const HistoryMessage = ({username, context} : any) =>{
+const HistoryMessage = ({username} : any) =>{
     return (
         <div className="history-message">
             <div className="img__container">
@@ -9,7 +9,7 @@ const HistoryMessage = ({username, context} : any) =>{
             </div>
             <div className="history_text">
                 <span className = "his__username">
-                    nikita
+                    {username}
                 </span>
                 <p className ="his__context">
                     text
