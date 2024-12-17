@@ -9,6 +9,7 @@ import FriendList from '@/components/FriendList';
 import ChatHeader from '@/components/ChatHeader';
 import Message from '@/components/Message';
 import MessageInput from '@/components/MessageInput';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
@@ -16,14 +17,20 @@ export default function Home() {
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const [chatHistory, setChatHistory] = useState<{ id: string; senderId: string; content: string }[]>([]);
 
-
+    const router = useRouter();
 
     useEffect(() => {
+        if(user == null){
+            router.replace('/auth');
+            return;
+        }
         const initConnection = async () => {
             try {
                 const conn = await connectToChatHub(user.id);
                 setConnection(conn);
+                conn.off("ReceiveMessage");
                 conn.on("ReceiveMessage", (user, message) => {
+                    
                     console.log(`${user}: ${message}`);
                     const newMessage = {
                         id: crypto.randomUUID(),
@@ -31,18 +38,18 @@ export default function Home() {
                         content: message,
                     };
                     setChatHistory((prevMessages) => [...prevMessages, newMessage]);
-                });
+                }); 
             } catch (err) {
                 console.error('Error initializing SignalR connection:', err);
             }
         };
-
+    
         initConnection();
-
+    
         return () => {
             connection?.stop().then(() => console.log('SignalR connection stopped.'));
         };
-    }, [user]);
+    }, [user, router]); 
 
     // Загружаем историю сообщений и подключаемся к SignalR при выборе друга
     const handleFriendSelection = async (friend: { id: string; username: string }) => {
