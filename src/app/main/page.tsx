@@ -1,7 +1,7 @@
 'use client';
 import './style-main.scss';
 import type { AppDispatch, RootState } from '@/store/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { connectToChatHub, takeChatHistory } from '@/api/signalrService';
 import { HubConnection } from '@microsoft/signalr';
@@ -15,12 +15,12 @@ export default function Home() {
     const user = useSelector((state: RootState) => state.user);
     const [selectedFriend, setSelectedFriend] = useState<{ id: string; username: string } | null>(null);
     const [connection, setConnection] = useState<HubConnection | null>(null);
-    const [chatHistory, setChatHistory] = useState<{ id: string; senderId: string; content: string }[]>([]);
-
+    const [chatHistory, setChatHistory] = useState<{ id: string; senderId: string; username: string, content: string }[]>([]);
     const router = useRouter();
+    const msgContainer = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if(user == null){
+        if (user == null) {
             router.replace('/auth');
             return;
         }
@@ -29,28 +29,32 @@ export default function Home() {
                 const conn = await connectToChatHub(user.id);
                 setConnection(conn);
                 conn.off("ReceiveMessage");
-                conn.on("ReceiveMessage", (user, message) => {
-                    
-                    console.log(`${user}: ${message}`);
+                conn.on("ReceiveMessage", (senderId, username, content) => {
                     const newMessage = {
                         id: crypto.randomUUID(),
-                        senderId: user,
-                        content: message,
+                        senderId: senderId,
+                        username: username,
+                        content: content,
                     };
                     setChatHistory((prevMessages) => [...prevMessages, newMessage]);
-                }); 
+                });
             } catch (err) {
                 console.error('Error initializing SignalR connection:', err);
             }
         };
-    
+
         initConnection();
-    
+
         return () => {
             connection?.stop().then(() => console.log('SignalR connection stopped.'));
         };
-    }, [user, router]); 
-
+    }, [user, router]);
+    // Эффект для автоскролла вниз при изменении истории сообщений
+    useEffect(() => {
+        if (msgContainer.current) {
+            msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
+        }
+    }, [chatHistory]);
     // Загружаем историю сообщений и подключаемся к SignalR при выборе друга
     const handleFriendSelection = async (friend: { id: string; username: string }) => {
         setSelectedFriend(friend);
@@ -64,10 +68,17 @@ export default function Home() {
                 senderId: msg.senderId === friend.id ? friend.username : user.username
             }));
             setChatHistory(updatedHistory); // Обновляем историю сообщений в Redux
+            // Делаем паузу, чтобы React успел отрендерить новые сообщения
+            setTimeout(() => {
+                if (msgContainer.current) {
+                    msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
+                }
+            }, 0);
 
         } catch (error) {
             console.error("Ошибка при обработке выбора друга:", error);
         }
+
     };
 
 
@@ -77,6 +88,7 @@ export default function Home() {
             connection.invoke('SendMessage', user.id, selectedFriend?.id || '', message)
                 .catch(err => console.error('Error sending message:', err));
         }
+        // Очищаем поле ввода сообщения
     };
 
     return (
@@ -85,10 +97,12 @@ export default function Home() {
             <main className="message-block">
                 <div className="message-history">
                     <ChatHeader selectedFriend={selectedFriend} />
-                    <div className="container_message">
-                        {chatHistory.map((msg) => (
-                            <Message key={msg.id} senderId={msg.senderId} content={msg.content} />
-                        ))}
+                    <div ref={msgContainer} className="container_message">
+                        <div className="msg-con " >
+                            {chatHistory.map((msg) => (
+                                <Message key={msg.id} username={msg.username} content={msg.content} />
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <MessageInput onSendMessage={handleSendMessage} />
