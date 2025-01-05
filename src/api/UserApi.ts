@@ -56,4 +56,35 @@ export default class AuthApi {
         // Преобразуем полученные данные в объект User
         return User.fromJSON(data);
     }
+
+
+    static async searchUser(searchQuery: string): Promise<User[]> {
+        console.log('Sending search query:', searchQuery);
+    
+        try {
+            const response = await fetch(`https://localhost:44336/im/user/search-users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: searchQuery,
+                }),
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Server responded with an error:', errorText);
+                throw new Error('Enter just the username');
+            }
+    
+            const data = await response.json();
+            console.log('Received data:', data);
+    
+            return data.map((userData: any) => User.fromJSON(userData));
+        } catch (error) {
+            console.error('Error during searchUser execution:', error);
+            throw error;
+        }
+    }
 }

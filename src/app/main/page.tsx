@@ -1,7 +1,7 @@
 'use client';
 import './style-main.scss';
 import type { AppDispatch, RootState } from '@/store/store';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { connectToChatHub, takeChatHistory } from '@/api/signalrService';
 import { HubConnection } from '@microsoft/signalr';
@@ -11,11 +11,13 @@ import Message from '@/components/Message';
 import MessageInput from '@/components/MessageInput';
 import { useRouter } from 'next/navigation';
 
+
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
     const [selectedFriend, setSelectedFriend] = useState<{ id: string; username: string } | null>(null);
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const [chatHistory, setChatHistory] = useState<{ id: string; senderId: string; username: string, content: string }[]>([]);
+   
     const router = useRouter();
     const msgContainer = useRef<HTMLDivElement | null>(null);
 
@@ -80,7 +82,7 @@ export default function Home() {
         }
 
     };
-
+ 
 
     // Обработка отправки сообщения
     const handleSendMessage = async (message: string) => {
@@ -90,10 +92,12 @@ export default function Home() {
         }
         // Очищаем поле ввода сообщения
     };
-
+    
     return (
         <div className="main-page">
-            <FriendList onSelectFriend={handleFriendSelection} />
+            {
+                <FriendList onSelectFriend={handleFriendSelection} /> 
+            }
             <main className="message-block">
                 <div className="message-history">
                     <ChatHeader selectedFriend={selectedFriend} />
