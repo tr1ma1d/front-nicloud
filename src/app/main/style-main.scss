@@ -19,7 +19,14 @@ $profile-back: #2D2D2D;
         background-color: $friend-back; // Полупрозрачный фон
         backdrop-filter: blur(5px);
 
-
+        .search-input{
+            margin: 5px 20px;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 20px;
+            height: 40px;
+            width: 235px;
+        }
         .profile {
             width: 241px;
             height: 233px;
@@ -183,9 +190,7 @@ $profile-back: #2D2D2D;
     border-radius: 8px; 
     padding: 10px 0px;
     box-sizing: border-box;
-    .msg-con{
-
-    }
+    
     .msg{
         display: flex;
         margin: 10px;

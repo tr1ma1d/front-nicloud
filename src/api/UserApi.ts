@@ -71,7 +71,7 @@ export default class AuthApi {
                     username: searchQuery,
                 }),
             });
-            
+                
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Server responded with an error:', errorText);
