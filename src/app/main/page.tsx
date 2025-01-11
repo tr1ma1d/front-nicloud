@@ -10,11 +10,15 @@ import ChatHeader from '@/components/ChatHeader';
 import Message from '@/components/Message';
 import MessageInput from '@/components/MessageInput';
 import { useRouter } from 'next/navigation';
+import { useFetchFriendsQuery } from '@/store/friendListApi';
 
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
     const [selectedFriend, setSelectedFriend] = useState<{ id: string; username: string } | null>(null);
+    const { data: friends } = useFetchFriendsQuery(user.id, {
+        pollingInterval: 1000, // Запрос каждые 5 секунд
+    });
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const [chatHistory, setChatHistory] = useState<{ id: string; senderId: string; username: string, content: string }[]>([]);
    
@@ -89,6 +93,7 @@ export default function Home() {
         if (connection) {
             connection.invoke('SendMessage', user.id, selectedFriend?.id || '', message)
                 .catch(err => console.error('Error sending message:', err));
+            
         }
         // Очищаем поле ввода сообщения
     };
@@ -96,7 +101,7 @@ export default function Home() {
     return (
         <div className="main-page">
             {
-                <FriendList onSelectFriend={handleFriendSelection} /> 
+                <FriendList onSelectFriend={handleFriendSelection} friendList = {friends}/> 
             }
             <main className="message-block">
                 <div className="message-history">

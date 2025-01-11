@@ -1,19 +1,20 @@
 'use client';
-import { useFetchFriendsQuery } from '@/store/friendListApi';
+import { Friend } from '@/store/friendListApi';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import MessageHistory from '@/components/MessageHistory';
 import Image from "next/image";
 import UserApi from '@/api/UserApi'; // Импорт для `searchUser`
 
 type FriendListProps = {
     onSelectFriend: (friend: { id: string; username: string }) => void;
+    friendList?: Friend[]; // Получаем список друзей из стора (вместо friendList) для отображения в списке друзей.
 };
 
-export default function FriendList({ onSelectFriend }: FriendListProps) {
+export default function FriendList({ onSelectFriend, friendList }: FriendListProps) {
     const user = useSelector((state: RootState) => state.user);
-    const { data: friends, isLoading, error } = useFetchFriendsQuery(user.id);
+    
     const [searchFriend, setSearchFriend] = useState<string>('');
     const [searchResults, setSearchResults] = useState<{ id: string; username: string }[]>([]);
     const [isSearching, setIsSearching] = useState(false);
@@ -41,10 +42,9 @@ export default function FriendList({ onSelectFriend }: FriendListProps) {
         }
     };
 
-    if (isLoading) return <div>Loading friends...</div>;
-    if (error) return <div>Error loading friends</div>;
+    
 
-    const displayList = searchFriend.trim() ? searchResults : friends;
+    const displayList = searchFriend.trim() ? searchResults : friendList;
 
     return (
         <div className="friend-list">
