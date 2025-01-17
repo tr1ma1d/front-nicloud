@@ -4,6 +4,9 @@ $message: #a5a5a5;
 $username-color: #d2d2d2;
 
 .history-message{
+    &:hover{
+        transform: scale(1.05);
+    }
     margin: 10px 20px;
     background-color: $bg;
     border-radius: 5px;

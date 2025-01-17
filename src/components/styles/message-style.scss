@@ -1,6 +1,8 @@
 .msg{
     display: flex;
     margin: 10px;
+    height: auto;
+    box-sizing: border-box;
 }
 .message_logo{
     width: 50px;
@@ -10,10 +12,19 @@
     overflow: hidden;
 }
 .message-container{
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    
     background-color: #E6E6E6;
     padding: 20px;
     padding-top: 10px;
     color: #353535;
     margin: 0 20px;
     border-radius: 10px;
+    max-width: 400px;
+    text-align: justify;
+    .message__text{
+        text-align: justify;
+
+    }
 }
