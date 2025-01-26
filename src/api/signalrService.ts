@@ -9,6 +9,7 @@ let connection: HubConnection | null = null;
  * Устанавливает соединение с SignalR.
  * @param userId ID текущего пользователя.
  */
+const murl = process.env.NEXT_PUBLIC_MAIN_API;
 export const connectToChatHub = async (userId: string) => {
     console.log('hey');
     if (connection) {
@@ -17,7 +18,7 @@ export const connectToChatHub = async (userId: string) => {
     }
 
     connection = new HubConnectionBuilder()
-        .withUrl(`https://localhost:44336/chat?userId=${userId}`)
+        .withUrl(`${murl}/chat?userId=${userId}`)
         .configureLogging(LogLevel.Information)
         .withAutomaticReconnect()// Используйте свой URL хаба
         .build();

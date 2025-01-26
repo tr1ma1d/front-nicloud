@@ -1,10 +1,10 @@
 import  { User }  from "@/core/User"; // Импортируем класс User
 
 export default class AuthApi {
-
+   
     // Метод для получения данных
     static async fetchData(): Promise<any> {
-        const response = await fetch("https://localhost:44336/im/user/userList");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_API}/im/user/userList`);
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
@@ -14,7 +14,7 @@ export default class AuthApi {
 
     // Метод для регистрации пользователя
     static async registerUser(username: string, password: string, email: string, phone: string): Promise<void> {
-        const response = await fetch("https://localhost:44336/im/user/register", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_API}/im/user/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export default class AuthApi {
 
     // Метод для входа пользователя
     static async loginUser(username: string, password: string): Promise<User> {
-        const response = await fetch("https://localhost:44336/im/user/login", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_API}/im/user/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default class AuthApi {
         console.log('Sending search query:', searchQuery);
     
         try {
-            const response = await fetch(`https://localhost:44336/im/user/search-users`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_API}/im/user/search-users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

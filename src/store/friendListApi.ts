@@ -3,7 +3,7 @@ import  {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 // Определяем базовый URL и эндпоинты API
 export const friendsApi = createApi({
     reducerPath: 'friendsApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://localhost:44336/' }), // Заменить на реальный URL бэка
+    baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_MAIN_API}` }), // Заменить на реальный URL бэка
     endpoints: (builder) => ({
         fetchFriends: builder.query<Friend[], string>({
             query: (userId) => ({
