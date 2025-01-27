@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
 
-let connection: HubConnection | null = null;
+
 
 /**
  * Устанавливает соединение с SignalR.
@@ -12,12 +12,8 @@ let connection: HubConnection | null = null;
 const murl = process.env.NEXT_PUBLIC_MAIN_API;
 export const connectToChatHub = async (userId: string) => {
     console.log('hey');
-    if (connection) {
-        console.log("Connection already established");
-        return connection;
-    }
-
-    connection = new HubConnectionBuilder()
+    
+    var connection = new HubConnectionBuilder()
         .withUrl(`${murl}/chat?userId=${userId}`)
         .configureLogging(LogLevel.Information)
         .withAutomaticReconnect()// Используйте свой URL хаба
@@ -42,19 +38,18 @@ export const connectToChatHub = async (userId: string) => {
 };
 
 
-export const takeChatHistory = async (userId: string, friendId: string) => {
-    connectToChatHub(userId);
+export const takeChatHistory = async (userId: string, friendId: string, conn: HubConnection) => {
     console.log("----------------------------------------------------------------")
     console.log("OPEN CHAT HISTORY");
-    console.log(connection);
-    if (!connection || connection.state !== "Connected") {
+    console.log(conn);
+    if (!conn || conn.state !== "Connected") {
         console.error("Ошибка при попытке установить соединение");
         throw new Error("Ошибка при попытке установить соединение.");
     }
 
     try {
         console.log(`Запрос истории чата для ${userId} с ${friendId}`);
-        const history = await connection.invoke("GetChat", friendId);
+        const history = await conn.invoke("GetChat", friendId);
         console.log("История сообщений:", history);
         return history;
     } catch (error) {

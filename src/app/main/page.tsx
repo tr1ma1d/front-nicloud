@@ -21,7 +21,7 @@ export default function Home() {
     });
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const [chatHistory, setChatHistory] = useState<{ id: string; senderId: string; username: string, content: string }[]>([]);
-   
+
     const router = useRouter();
     const msgContainer = useRef<HTMLDivElement | null>(null);
 
@@ -30,31 +30,39 @@ export default function Home() {
             router.replace('/auth');
             return;
         }
-        const initConnection = async () => {
-            try {
-                const conn = await connectToChatHub(user.id);
-                setConnection(conn);
-                conn.off("ReceiveMessage");
-                conn.on("ReceiveMessage", (senderId, username, content) => {
-                    const newMessage = {
-                        id: crypto.randomUUID(),
-                        senderId: senderId,
-                        username: username,
-                        content: content,
-                    };
-                    setChatHistory((prevMessages) => [...prevMessages, newMessage]);
-                });
-            } catch (err) {
-                console.error('Error initializing SignalR connection:', err);
+    
+        // Только если соединение еще не установлено
+        if (!connection) {
+            const initConnection = async () => {
+                try {
+                    const conn = await connectToChatHub(user.id);
+                    setConnection(conn);
+    
+                    // Подписка на событие только один раз
+                    conn.on("ReceiveMessage", (senderId, username, content) => {
+                        const newMessage = {
+                            id: crypto.randomUUID(),
+                            senderId: senderId,
+                            username: username,
+                            content: content,
+                        };
+                        setChatHistory((prevMessages) => [...prevMessages, newMessage]);
+                    });
+    
+                } catch (err) {
+                    console.error('Error initializing SignalR connection:', err);
+                }
+            };
+    
+            initConnection();
+        }
+    
+        return () => {
+            if (connection) {
+                connection.off("ReceiveMessage");
             }
         };
-
-        initConnection();
-
-        return () => {
-            connection?.stop().then(() => console.log('SignalR connection stopped.'));
-        };
-    }, [user, router]);
+    }, [user, connection]); 
     // Эффект для автоскролла вниз при изменении истории сообщений
     useEffect(() => {
         if (msgContainer.current) {
@@ -62,11 +70,11 @@ export default function Home() {
         }
     }, [chatHistory]);
     // Загружаем историю сообщений и подключаемся к SignalR при выборе друга
-    const handleFriendSelection = async (friend: { id: string; username: string }) => {
+    const handleFriendSelection = async (friend: { id: string; username: string; }) => {
         setSelectedFriend(friend);
         try {
             // Загружаем историю сообщений
-            const history = await takeChatHistory(user.id, friend.id);
+            const history = await takeChatHistory(user.id, friend.id, connection!);
 
             // Обрабатываем историю сообщений (заменяем senderId на username)
             const updatedHistory = history.map((msg: any) => ({
@@ -86,22 +94,22 @@ export default function Home() {
         }
 
     };
- 
+
 
     // Обработка отправки сообщения
     const handleSendMessage = async (message: string) => {
         if (connection) {
-            connection.invoke('SendMessage', user.id, selectedFriend?.id || '', message)
+            connection.invoke('SendMessage', selectedFriend?.id || '', message)
                 .catch(err => console.error('Error sending message:', err));
-            
+
         }
         // Очищаем поле ввода сообщения
     };
-    
+
     return (
         <div className="main-page">
             {
-                <FriendList onSelectFriend={handleFriendSelection} friendList = {friends}/> 
+                <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
             }
             <main className="message-block">
                 <div className="message-history">
