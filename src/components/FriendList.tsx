@@ -6,6 +6,7 @@ import { useState } from 'react';
 import MessageHistory from '@/components/MessageHistory';
 import Image from "next/image";
 import UserApi from '@/api/UserApi'; // Импорт для `searchUser`
+import { FriendItem } from './widgets/friends/FriendItem';
 
 type FriendListProps = {
     onSelectFriend: (friend: { id: string; username: string }) => void;
@@ -74,21 +75,18 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
 
             {/* Результаты или список друзей */}
             <div className="friend-list__items">
+            <div className="friend-list__items">
                 {isSearching ? (
                     <div>Searching...</div>
                 ) : displayList?.length ? (
                     displayList.map((friend) => (
-                        <div
-                            key={friend.id}
-                            onClick={() => onSelectFriend(friend)}
-                            className="friend-list__item"
-                        >
-                            <MessageHistory username={friend.username} />
-                        </div>
+                        <FriendItem key={friend.id} data={friend} onSelectFriend={onSelectFriend} />
+
                     ))
                 ) : (
                     <div>No users found</div>
                 )}
+            </div>
             </div>
         </div>
     );
