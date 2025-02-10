@@ -7,6 +7,7 @@ import MessageHistory from '@/components/MessageHistory';
 import Image from "next/image";
 import UserApi from '@/api/UserApi'; // Импорт для `searchUser`
 import { FriendItem } from './widgets/friends/FriendItem';
+import { UserProfile } from './widgets/user/UserProfile';
 
 type FriendListProps = {
     onSelectFriend: (friend: { id: string; username: string }) => void;
@@ -50,18 +51,7 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
     return (
         <div className="friend-list">
             <div className="profile">
-                <div className="profile__image">
-                    <Image 
-                        src="/logotype-example.svg" 
-                        alt="logo" 
-                        layout="fill" 
-                        objectFit="cover" 
-                    />
-                </div>
-                <div className="profile-info">
-                    <span className="profile__text-username">{user.username}</span>
-                    <span className="profile__text-email">{user.id}</span>
-                </div>
+                <UserProfile data={user}/>
             </div>
 
             {/* Поле поиска */}
