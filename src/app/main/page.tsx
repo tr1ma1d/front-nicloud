@@ -46,9 +46,11 @@ export default function Home() {
                             username: username,
                             content: content,
                         };
+                        console.log('Получил ли я сообщение?');
                         setChatHistory((prevMessages) => [...prevMessages, newMessage]);
+                        
                     });
-    
+                    
                 } catch (err) {
                     console.error('Error initializing SignalR connection:', err);
                 }
@@ -59,6 +61,7 @@ export default function Home() {
     
         return () => {
             if (connection) {
+                console.log('Отключение SignalR -------------------------------------------------------------------');
                 connection.off("ReceiveMessage");
             }
         };
@@ -69,6 +72,16 @@ export default function Home() {
             msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
         }
     }, [chatHistory]);
+     // Обработка отправки сообщения
+     const handleSendMessage = async (message: string) => {
+        if (connection) {
+            connection.invoke('SendMessage', selectedFriend?.id, message)
+                .catch(err => console.error('Error sending message:', err));
+
+        }
+        // Очищаем поле ввода сообщения
+    };
+
     // Загружаем историю сообщений и подключаемся к SignalR при выборе друга
     const handleFriendSelection = async (friend: { id: string; username: string; }) => {
         setSelectedFriend(friend);
@@ -96,16 +109,7 @@ export default function Home() {
     };
 
 
-    // Обработка отправки сообщения
-    const handleSendMessage = async (message: string) => {
-        if (connection) {
-            connection.invoke('SendMessage', selectedFriend?.id || '', message)
-                .catch(err => console.error('Error sending message:', err));
-
-        }
-        // Очищаем поле ввода сообщения
-    };
-
+   
     return (
         <div className="main-page">
             {

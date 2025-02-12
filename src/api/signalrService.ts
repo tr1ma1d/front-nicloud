@@ -11,36 +11,22 @@ import { RootState } from "@/store/store";
  */
 const murl = process.env.NEXT_PUBLIC_MAIN_API;
 export const connectToChatHub = async (userId: string) => {
-    console.log('hey');
+    console.log('hey its ur userid', userId);
     
     var connection = new HubConnectionBuilder()
         .withUrl(`${murl}/chat?userId=${userId}`)
         .configureLogging(LogLevel.Information)
-        .withAutomaticReconnect()// Используйте свой URL хаба
+        .withAutomaticReconnect()
         .build();
     connection.start()
-        .then(() => console.log("SignalR connected successfully"));
-   
-     
-    console.log("SignalR connection established");
-    if (!connection) {
-        throw new Error("Соединение не установлено.");
-    }
-    else {
-        console.log("CONNECT METHOD");
-        console.log("---------------------------------");
-        console.log(connection)
-    }
-
-
+        .then(() => console.log("SignalR connected successfully"))
+        .catch(err => console.error("SignalR connection error:", err));
 
     return connection;
 };
 
 
 export const takeChatHistory = async (userId: string, friendId: string, conn: HubConnection) => {
-    console.log("----------------------------------------------------------------")
-    console.log("OPEN CHAT HISTORY");
     console.log(conn);
     if (!conn || conn.state !== "Connected") {
         console.error("Ошибка при попытке установить соединение");
