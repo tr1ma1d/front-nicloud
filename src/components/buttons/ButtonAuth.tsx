@@ -1,5 +1,5 @@
 
-import './styles/button.scss';
+import '../styles/button.scss';
 
 const ButtonAuth = ({onClick, children}: any) => {
     return(
