@@ -19,7 +19,7 @@ $profile-back: #2D2D2D;
         background-color: $friend-back; // Полупрозрачный фон
         backdrop-filter: blur(5px);
 
-        .search-input{
+        .search-input {
             margin: 5px 20px;
             color: black;
             padding: 5px 10px;
@@ -27,6 +27,7 @@ $profile-back: #2D2D2D;
             height: 40px;
             width: 235px;
         }
+
         .profile {
             width: 241px;
             height: 233px;
@@ -68,7 +69,7 @@ $profile-back: #2D2D2D;
                 font-weight: 200;
                 width: 200px;
                 height: 20px;
-                overflow: hidden; 
+                overflow: hidden;
             }
         }
     }
@@ -82,6 +83,7 @@ $profile-back: #2D2D2D;
         height: 820px;
         border-radius: 20px;
         backdrop-filter: blur(5px);
+
         .message-history {
             background-color: $main-back;
             backdrop-filter: blur(5px);
@@ -89,7 +91,8 @@ $profile-back: #2D2D2D;
             width: 820px;
             overflow: hidden;
             height: 760px;
-            .message-header{
+
+            .message-header {
                 height: 70px;
                 width: 100%;
                 display: flex;
@@ -98,18 +101,20 @@ $profile-back: #2D2D2D;
                 align-items: center;
                 padding: 0 10px;
                 color: #494949;
-                .header-username{
+
+                .header-username {
                     display: flex;
                     align-items: center;
                     gap: 15px;
-                    .header-username__text{
+
+                    .header-username__text {
                         font-weight: 600;
                     }
-                    
+
                 }
-               
-            
-                .logo-friend{
+
+
+                .logo-friend {
                     overflow: hidden;
                     position: relative;
                     width: 50px;
@@ -117,39 +122,42 @@ $profile-back: #2D2D2D;
                     border-radius: 50%;
                     border: 3px solid #494949;
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
-    
+
                 }
 
-                .header-button_action{
+                .header-button_action {
                     display: flex;
 
                     width: 100px;
                     height: 50px;
                     justify-content: space-evenly;
                     align-items: center;
-                    button{
+
+                    button {
                         position: relative;
                         width: 20px;
                         height: 20px;
                         object-fit: contain;
                     }
                 }
-                
+
             }
-            
+
         }
-        
-       
+
+
 
         .input-message {
-            ::placeholder{
+            ::placeholder {
                 color: rgb(223, 223, 223);
             }
+
             width: 820px;
             height: 50px;
             overflow: hidden;
             border-radius: 50px;
             position: relative;
+
             input {
                 width: 100%;
                 height: 100%;
@@ -159,31 +167,34 @@ $profile-back: #2D2D2D;
                 background-color: rgba(217, 217, 217, 0.459);
                 backdrop-filter: blur(5px);
             }
-            .send-message__container{
-                
-                padding: 5px 0;
+
+            .send-message__container {
+
                 position: absolute;
                 right: 4px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: black;
-                
-                button{
-                    &:hover{
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+                button {
+                    &:hover {
                         transition: 0.15s background-color ease;
                         background-color: #e2e2e2;
                         transform: scale(1.1);
                     }
+
                     width: 40px;
                     height: 40px;
                     background-color: #BBBBBB;
                     position: relative;
                     border-radius: 50%;
-                   
+
                 }
-            
+
             }
-            
+
         }
     }
 
@@ -192,30 +203,37 @@ $profile-back: #2D2D2D;
 }
 
 
-.container_message{
+.container_message {
     margin: 10 10px;
     overflow-y: auto;
-    position: relative; /* Сохраняет контекст позиционирования */
-    overflow-y: auto;   /* Включаем вертикальную прокрутку */
-    height: 87%;/* Ограничиваем высоту контейнера */
-    padding: 10px;      /* Внутренние отступы для пространства */
-    box-sizing: border-box; /* Учитываем padding в общей ширине/высоте */
-    border-radius: 8px; 
+    position: relative;
+    /* Сохраняет контекст позиционирования */
+    overflow-y: auto;
+    /* Включаем вертикальную прокрутку */
+    height: 87%;
+    /* Ограничиваем высоту контейнера */
+    padding: 10px;
+    /* Внутренние отступы для пространства */
+    box-sizing: border-box;
+    /* Учитываем padding в общей ширине/высоте */
+    border-radius: 8px;
     padding: 10px 0px;
     box-sizing: border-box;
-    
-    .msg{
+
+    .msg {
         display: flex;
         margin: 10px;
     }
-    .message_logo{
+
+    .message_logo {
         width: 50px;
         height: 50px;
         border-radius: 50%;
         position: relative;
         overflow: hidden;
     }
-    .message-container{
+
+    .message-container {
         background-color: #E6E6E6;
         padding: 20px;
         padding-top: 10px;

@@ -29,9 +29,18 @@ export default function Home() {
         </div>
         <div className="form-container">
           {isLogin ? <LoginForm /> : <RegisterForm toggleForm={toggleForm} />}
+
         </div>
       </div>
-      
+      {isLogin ? (
+        <button className="auth-toggle-button" onClick={toggleForm}>
+          Зарегистрироваться
+        </button>
+      ) : (
+        <button className="auth-toggle-button" onClick={toggleForm}>
+          Авторизироваться
+        </button>
+      )}
     </div>
   );
 }

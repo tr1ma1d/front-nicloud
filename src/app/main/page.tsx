@@ -8,7 +8,7 @@ import Message from '@/components/Message';
 import MessageInput from '@/components/MessageInput';
 import { useFetchFriendsQuery } from '@/store/friendListApi';
 import { useChat } from '@/hooks/useChatHook';
-
+import ButtonEdit from '@/components/buttons/ButtonEdit';
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
@@ -34,6 +34,7 @@ export default function Home() {
                 </div>
                 <MessageInput onSendMessage={handleSendMessage} />
             </main>
+            <ButtonEdit/>
         </div>
     );
 }
