@@ -1,3 +1,5 @@
+import { ButtonClose } from "@/components/buttons/ButtonCLose";
+import { motion } from "framer-motion";
 import { FC } from "react";
 
 interface EditorProps {
@@ -9,12 +11,18 @@ export const Editor: FC<EditorProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
-      <div className="w-[200px] h-[200px] bg-blue-600 relative">
-        <button onClick={onClose} className="absolute top-2 right-2">
-          close
-        </button>
+    <motion.div 
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 10 }}
+      transition={{ duration: 0.5 }}
+      >
+      <div className="fixed right-[10px] bottom-[0px] flex items-center justify-center z-20">
+        <div className="w-[400px] h-[600px] bg-blue-600 relative">
+          <div></div>
+          <ButtonClose onClose={onClose}/>
+        </div>
+        
       </div>
-    </div>
+    </motion.div>
   );
 };

@@ -3,6 +3,8 @@ $main-back: rgba(206, 206, 206, 0.822);
 $profile-back: #2D2D2D;
 
 .main-page {
+    overflow: hidden;
+    overflow-y: hidden;
     width: 100vw;
     height: 100vh;
     background-image: url("../../../public/bg.jpg");
