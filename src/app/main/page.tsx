@@ -17,24 +17,26 @@ export default function Home() {
         pollingInterval: 1000, // Запрос каждые 5 секунд
     });
     return (
-        <div className="main-page">
-            {
-                <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
-            }
-            <main className="message-block">
-                <div className="message-history">
-                    <ChatHeader selectedFriend={selectedFriend} />
-                    <div ref={msgContainer} className="container_message">
-                        <div className="msg-con " >
-                            {chatHistory.map((msg) => (
-                                <Message key={msg.id} username={msg.username} content={msg.content} />
-                            ))}
+        <WallpaperContext value={wallpapers}>
+            <div className="main-page">
+                {
+                    <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
+                }
+                <main className="message-block">
+                    <div className="message-history">
+                        <ChatHeader selectedFriend={selectedFriend} />
+                        <div ref={msgContainer} className="container_message">
+                            <div className="msg-con " >
+                                {chatHistory.map((msg) => (
+                                    <Message key={msg.id} username={msg.username} content={msg.content} />
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <MessageInput onSendMessage={handleSendMessage} />
-            </main>
-            <ButtonEdit/>
-        </div>
+                    <MessageInput onSendMessage={handleSendMessage} />
+                </main>
+                <ButtonEdit />
+            </div>
+        </WallpaperContext>
     );
 }
