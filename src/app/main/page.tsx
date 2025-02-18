@@ -7,36 +7,34 @@ import ChatHeader from '@/components/ChatHeader';
 import Message from '@/components/Message';
 import MessageInput from '@/components/MessageInput';
 import { useFetchFriendsQuery } from '@/store/friendListApi';
+
 import { useChat } from '@/hooks/useChatHook';
+import { useWallpaperHook } from '@/hooks/useWallpaperHook';
+
 import ButtonEdit from '@/components/buttons/ButtonEdit';
+import MessageContainer from '@/components/widgets/MessageContainer';
+
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
+    const { bgWrapper } = useWallpaperHook('');
     const { chatHistory, selectedFriend, handleSendMessage, handleFriendSelection, msgContainer } = useChat(user);
     const { data: friends } = useFetchFriendsQuery(user.id, {
         pollingInterval: 1000, // Запрос каждые 5 секунд
     });
     return (
-        <WallpaperContext value={wallpapers}>
-            <div className="main-page">
-                {
-                    <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
-                }
-                <main className="message-block">
-                    <div className="message-history">
-                        <ChatHeader selectedFriend={selectedFriend} />
-                        <div ref={msgContainer} className="container_message">
-                            <div className="msg-con " >
-                                {chatHistory.map((msg) => (
-                                    <Message key={msg.id} username={msg.username} content={msg.content} />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                    <MessageInput onSendMessage={handleSendMessage} />
-                </main>
-                <ButtonEdit />
-            </div>
-        </WallpaperContext>
+        <div className="main-page">
+            {
+                <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
+            }
+            <main className="message-block">
+                <div className="message-history">
+                    <ChatHeader selectedFriend={selectedFriend} />
+                    <MessageContainer msgContainer={msgContainer} chatHistory={chatHistory}/>
+                </div>
+                <MessageInput onSendMessage={handleSendMessage} />
+            </main>
+            <ButtonEdit />
+        </div>
     );
 }

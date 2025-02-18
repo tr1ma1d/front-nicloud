@@ -1,9 +1,11 @@
 'use client'
-import React from "react";
+import {createContext} from "react";
 import { getWallpapers } from "./getWallpaper";
 
-const wallpapers = getWallpapers();
+interface Wallpaper{
+    src: string;
+}
 
 
-const WallpaperContext = React.createContext({});
+export const WallpaperContext = createContext<Wallpaper>({src: "./wallpapers/bg"});
 
