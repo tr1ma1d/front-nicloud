@@ -16,7 +16,7 @@ interface ChatMessage {
   username: string;
   content: string;
 }
-
+  
 interface Friend {
   id: string;
   username: string;

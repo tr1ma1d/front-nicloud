@@ -29,6 +29,10 @@ let wallpaper = {
             {
                 title: 'Wallpaper 6',
                 src: '/wallpapers/A - Purple.png'
+            },
+            {
+                title: 'Wallpaper 7',
+                src: '/wallpapers/bg.jpg'
             }
         ]
 
