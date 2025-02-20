@@ -1,5 +1,4 @@
 'use client';
-import './style-main.scss';
 import type { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import FriendList from '@/components/FriendList';
