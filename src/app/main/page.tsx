@@ -11,7 +11,8 @@ import { useChat } from '@/hooks/useChatHook';
 import ButtonEdit from '@/components/buttons/ButtonEdit';
 import MessageContainer from '@/components/widgets/MessageContainer';
 
-import { useWallpaperHook } from '@/hooks/useWallpaperHook';
+import { useContext } from 'react';
+import { WallpaperContext } from '@/hooks/useWallpaperContext';
 
 
 export default function Home() {
@@ -20,12 +21,18 @@ export default function Home() {
     const { data: friends } = useFetchFriendsQuery(user.id, {
         pollingInterval: 1000, // Запрос каждые 5 секунд
     });
-    const {bgWrapper, setBgWrapper} = useWallpaperHook();
 
-   
+    const context = useContext(WallpaperContext);
+
+    if (!context) {
+        throw new Error('WallpaperContext must be used within a WallpaperProvider');
+    }
+
+    const { wallpaper } = context;
+
     return (
-        <div className="main-page" style={{ 
-            backgroundImage: `url(${bgWrapper})`,
+        <div className="main-page" style={{
+            backgroundImage: `url(${wallpaper.src})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
         }}>
