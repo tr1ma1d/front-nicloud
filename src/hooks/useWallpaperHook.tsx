@@ -1,4 +1,4 @@
-import { getWallpapers } from "@/lib/getWallpaper";
+import { getWallpapers } from "@/lib/wallpaper.module";
 import { useEffect, useState } from "react";
 
 export const useWallpaperHook = () =>{

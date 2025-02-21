@@ -13,6 +13,7 @@ interface WallpaperContextProps{
 export const WallpaperContext = createContext<WallpaperContextProps | undefined>(undefined);
 export const WallpaperProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const[wallpaper, setWallpaper] = useState<Wallpaper>({title: 'Wallpaper 1', src: '/wallpapers/bg.jpg'});
+
     const changeWallpaper = (title: string, src: string) => {
         setWallpaper({title: title, src: src});
     }
@@ -21,4 +22,4 @@ export const WallpaperProvider: FC<{ children: ReactNode }> = ({ children }) => 
             {children}
         </WallpaperContext.Provider>
     );
-}
+}   

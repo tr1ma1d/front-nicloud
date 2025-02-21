@@ -1,12 +1,8 @@
 'use client';
 import "./style.scss";
 import { useState } from "react";
-import { useForm } from "@/hooks/useForm";
 
 import Image from "next/image";
-import ButtonAuth from "@/components/buttons/ButtonAuth";
-import { useRegister } from "@/hooks/useRegister";
-import { useLogin } from "@/hooks/useLogin";
 import { LoginForm } from "@/components/widgets/auth/login/LoginForm";
 import { RegisterForm } from "@/components/widgets/auth/register/RegisterForm";
 
