@@ -17,7 +17,7 @@ export const Editor: FC<EditorProps> = ({ isOpen, onClose }) => {
       animate={{ opacity: 1, x: 10 }}
       transition={{ duration: 0.3}}
       >
-      <div className="fixed right-[10px] bg-blue-500 bottom-[0px] w-[400px] h-[600px] flex items-center z-20 flex-col">
+      <div className="fixed right-[10px] bg-white/30 backdrop-blur-sm bottom-[0px] w-[400px] h-[600px] flex items-center z-20 flex-col rounded-lg">
         <div className="flex justify-between w-[100%]">
           <div></div>
           <ButtonClose onClose={onClose}/>

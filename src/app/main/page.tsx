@@ -34,7 +34,8 @@ export default function Home() {
         <div className="main-page" style={{
             backgroundImage: `url(${wallpaper.src})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            transition: 'background-image 2s ease-in-out'
         }}>
             {
                 <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
