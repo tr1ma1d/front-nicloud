@@ -50,9 +50,13 @@ export const WallpaperList = () => {
                 ))}
 
             </div>
-            <div className="pagination">
-                <button className="prev-btn" onClick={prevPage} disabled={offset === 0}>Prev</button>
-                <button className="next-btn" onClick={nextPage} disabled={offset + limit >= wallpaperManager.data.length}>Next</button>
+            <div className="flex justify-between p-2">
+                <button className="prev-btn" 
+                    onClick={prevPage} 
+                    disabled={offset === 0}>←</button>
+                <button className="next-btn" 
+                    onClick={nextPage} 
+                    disabled={offset + limit >= wallpaperManager.data.length}>→</button>
             </div>
         </div>
     );

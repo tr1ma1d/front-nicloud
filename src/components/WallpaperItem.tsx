@@ -28,3 +28,4 @@ export const WallpaperItem:FC<WallpaperProps> = (props) => {
         </div>
     );
 }
+
