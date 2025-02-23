@@ -4,6 +4,8 @@ import { wallpaperManager } from "@/lib/wallpaper.module";
 
 
 import { useContext, useEffect, useState } from "react";
+import { UploadPaper } from "./UploadPaper";
+
 type Wallpaper = {
     title: string;
     src: string;
@@ -17,7 +19,7 @@ export const WallpaperList = () => {
     if (!context) {
         throw new Error('WallpaperContext must be used within a WallpaperProvider');
     }
-    const { changeWallpaper } = context;
+    const { changeWallpaper, loadWallpaper } = context;
 
     useEffect(() => {
         setWallpapers(wallpaperManager.getWallpapers(offset, limit));
@@ -39,6 +41,7 @@ export const WallpaperList = () => {
         <div className="w-full h-full p-8">
             <h1 className="text-xl font-bold mb-4">Wallpapers</h1>
             <div className="flex flex-wrap gap-4 justify-evenly">
+            <UploadPaper loadWallpaper={loadWallpaper} />
                 {wallpapers.map((wallpaper) => (
                     <WallpaperItem
                         key={wallpaper.title}

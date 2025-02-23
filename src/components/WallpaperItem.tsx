@@ -16,7 +16,7 @@ export const WallpaperItem:FC<WallpaperProps> = (props) => {
             className="flex flex-col items-center cursor-pointer w-[150px] hover:scale-110 transition duration-280 ease-in-out"
             onClick={() => props.changeWallpaper(props.wallpaper.title, props.wallpaper.src)}
         >
-
+    
             <div className="w-[150px] h-[150] relative">
                 <Image
                     src={props.wallpaper.src}
