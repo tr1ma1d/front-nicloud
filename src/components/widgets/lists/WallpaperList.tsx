@@ -12,7 +12,7 @@ type Wallpaper = {
 }
 export const WallpaperList = () => {
     const [offset, setOffset] = useState(0);
-    const limit = 4;
+    const limit = 3;
     const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
 
     const context = useContext(WallpaperContext);
@@ -37,11 +37,15 @@ export const WallpaperList = () => {
         }
     };
 
+    const handleLoadWallpaper = (file: File) => {
+        loadWallpaper(file); // Загружаем картинку
+    }
+
     return (
         <div className="w-full h-full p-8">
             <h1 className="text-xl font-bold mb-4">Wallpapers</h1>
             <div className="flex flex-wrap gap-4 justify-evenly">
-            <UploadPaper loadWallpaper={loadWallpaper} />
+                <UploadPaper loadWallpaper={handleLoadWallpaper} />
                 {wallpapers.map((wallpaper) => (
                     <WallpaperItem
                         key={wallpaper.title}
@@ -54,11 +58,11 @@ export const WallpaperList = () => {
 
             </div>
             <div className="flex justify-between p-2">
-                <button className="prev-btn" 
-                    onClick={prevPage} 
+                <button className="prev-btn"
+                    onClick={prevPage}
                     disabled={offset === 0}>←</button>
-                <button className="next-btn" 
-                    onClick={nextPage} 
+                <button className="next-btn"
+                    onClick={nextPage}
                     disabled={offset + limit >= wallpaperManager.data.length}>→</button>
             </div>
         </div>
