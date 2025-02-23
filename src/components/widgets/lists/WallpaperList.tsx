@@ -1,69 +1,58 @@
-import { WallpaperItem } from "@/components/WallpaperItem";
+import { useContext, useState } from "react";
 import { WallpaperContext } from "@/hooks/useWallpaperContext";
-import { wallpaperManager } from "@/lib/wallpaper.module";
-
-
-import { useContext, useEffect, useState } from "react";
+import { WallpaperItem } from "@/components/WallpaperItem";
 import { UploadPaper } from "./UploadPaper";
 
-type Wallpaper = {
-    title: string;
-    src: string;
-}
 export const WallpaperList = () => {
     const [offset, setOffset] = useState(0);
     const limit = 3;
-    const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
 
     const context = useContext(WallpaperContext);
     if (!context) {
         throw new Error('WallpaperContext must be used within a WallpaperProvider');
     }
-    const { changeWallpaper, loadWallpaper } = context;
+    const { allWallpapers, changeWallpaper, loadWallpaper } = context;
 
-    useEffect(() => {
-        setWallpapers(wallpaperManager.getWallpapers(offset, limit));
-    }, [offset, limit]);
+    const currentWallpapers = allWallpapers.slice(offset, offset + limit);
 
     const nextPage = () => {
-        if (offset + limit < wallpaperManager.data.length) {
-            setOffset((prev) => prev + limit);
+        if (offset + limit < allWallpapers.length) {
+            setOffset(prev => prev + limit);
         }
     };
 
     const prevPage = () => {
         if (offset > 0) {
-            setOffset((prev) => Math.max(0, prev - limit));
+            setOffset(prev => Math.max(0, prev - limit));
         }
     };
-
-    const handleLoadWallpaper = (file: File) => {
-        loadWallpaper(file); // Загружаем картинку
-    }
 
     return (
         <div className="w-full h-full p-8">
             <h1 className="text-xl font-bold mb-4">Wallpapers</h1>
             <div className="flex flex-wrap gap-4 justify-evenly">
-                <UploadPaper loadWallpaper={handleLoadWallpaper} />
-                {wallpapers.map((wallpaper) => (
+                <UploadPaper loadWallpaper={loadWallpaper} />
+                {currentWallpapers.map((wallpaper) => (
                     <WallpaperItem
                         key={wallpaper.title}
-                        {...{
-                            wallpaper,
-                            changeWallpaper // Если переменная доступна в этой области видимости
-                        }}
+                        wallpaper={wallpaper}
+                        changeWallpaper={changeWallpaper}
                     />
                 ))}
-
             </div>
             <div className="flex justify-between p-2">
-                <button className="prev-btn"
+                <button
                     onClick={prevPage}
-                    disabled={offset === 0}>←</button>
-                <button className="next-btn"
+                    disabled={offset === 0}
+                >
+                    ←
+                </button>
+                <button
                     onClick={nextPage}
-                    disabled={offset + limit >= wallpaperManager.data.length}>→</button>
+                    disabled={offset + limit >= allWallpapers.length}
+                >
+                    →
+                </button>
             </div>
         </div>
     );

@@ -5,11 +5,9 @@ interface IUploadProps {
 }
 
 export const UploadPaper: FC<IUploadProps> = ({ loadWallpaper }) => {
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            loadWallpaper(file); // Передаем файл в handleLoadWallpaper
-        }
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) loadWallpaper(file);
     };
 
     return (
