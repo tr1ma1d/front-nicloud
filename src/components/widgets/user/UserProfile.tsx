@@ -8,7 +8,7 @@ interface ProfileProps {
 
 export const UserProfile: FC<ProfileProps> = ({ data }) => {
     return (
-        <div>
+        <div className="w-full flex justify-center items-center flex-col">
             <div className="profile__image">
                 <Image
                     src="/logotype-example.svg"

@@ -13,6 +13,7 @@ import MessageContainer from '@/components/widgets/MessageContainer';
 
 import { useContext } from 'react';
 import { WallpaperContext } from '@/hooks/useWallpaperContext';
+import { ListGroup } from '@/components/widgets/groups/ListGroup';
 
 
 export default function Home() {
@@ -37,9 +38,8 @@ export default function Home() {
             backgroundPosition: 'center',
             transition: 'background-image 2s ease-in-out'
         }}>
-            {
-                <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
-            }
+            <ListGroup/>
+            <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
             <main className="message-block">
                 <div className="message-history">
                     <ChatHeader selectedFriend={selectedFriend} />

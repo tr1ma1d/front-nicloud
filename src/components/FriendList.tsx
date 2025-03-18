@@ -3,8 +3,6 @@ import { Friend } from '@/store/friendListApi';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import MessageHistory from '@/components/MessageHistory';
-import Image from "next/image";
 import UserApi from '@/api/UserApi'; // Импорт для `searchUser`
 import { FriendItem } from './widgets/friends/FriendItem';
 import { UserProfile } from './widgets/user/UserProfile';
