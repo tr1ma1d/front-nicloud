@@ -10,7 +10,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-    id: '0194f448-5b94-7e3e-a39d-9053f6b4b37e',
+    id: '01954727-5e20-7047-8c97-ae76dc96208d',
     username: 'wnikita',
     password: '',
     email: '',
