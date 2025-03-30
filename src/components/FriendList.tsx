@@ -1,5 +1,5 @@
 'use client';
-import { Friend } from '@/store/friendListApi';
+import { Friend } from '@/store/unifinedReducer';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
