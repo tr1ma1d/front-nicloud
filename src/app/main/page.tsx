@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import FriendList from '@/components/FriendList';
 import ChatHeader from '@/components/ChatHeader';
 import MessageInput from '@/components/MessageInput';
-import { useFetchFriendsQuery } from '@/store/friendListApi';
+import { useFetchFriendsQuery } from '@/store/unifinedReducer';
 
 import { useChat } from '@/hooks/useChatHook';
 
