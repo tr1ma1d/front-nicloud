@@ -39,7 +39,22 @@ export const takeChatHistory = async (userId: string, friendId: string, conn: Hu
         console.log("История сообщений:", history);
         return history;
     } catch (error) {
-        console.error("Ошибка получения истории чата:", error);
+        console.error("Direct: Error with get history chat", error);
         return [];
     }
 };
+
+
+export const takeChatGroupHistory = async (chatId: string, conn: HubConnection) => {
+    if(!conn || conn.state !== "Connected"){
+        console.error("Error on connection to server");
+        throw new Error("Error on connection to server");
+    }
+    try{
+        const history = await conn.invoke("GetGroupHistory", chatId);
+        return history;
+    }
+    catch(err){
+        console.error('GROUP: Error with get history this chat')
+    }
+}
