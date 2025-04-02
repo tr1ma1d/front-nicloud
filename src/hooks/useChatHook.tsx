@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { HubConnection } from "@microsoft/signalr";
-import { connectToChatHub, takeChatHistory } from "@/api/signalrService";
+import { connectToChatHub, takeChatGroupHistory, takeChatHistory } from "@/api/signalrService";
 
 interface UserState{
     id: string;
@@ -21,12 +21,17 @@ interface Friend {
   id: string;
   username: string;
 }
-
+interface Chat{
+  chat_id: string;
+  name: string;
+}
 interface UseChatHook {
   chatHistory: ChatMessage[];
   selectedFriend: Friend | null;
+  selectedGroup: Chat | undefined;
   handleSendMessage: (message: string) => Promise<void>;
   handleFriendSelection: (friend: Friend) => Promise<void>;
+  handleGroupSelection: (chat: Chat) => Promise<void>;
   msgContainer: React.RefObject<HTMLDivElement>;
 }
 
@@ -36,7 +41,7 @@ export const useChat = (
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-
+  const [selectedGroup, setSelectedGroup] = useState<Chat | undefined>();
   const router = useRouter();
   const msgContainer = useRef<HTMLDivElement | null>(null);
 
@@ -112,11 +117,34 @@ export const useChat = (
     }
   };
 
+  const handleGroupSelection = async (chat: Chat) =>{
+    setSelectedGroup(chat);
+    try{
+      const history = await takeChatGroupHistory(chat.chat_id, connection!);
+      const updatedHistory = history.map((msg:any) => ({
+        ...msg,
+        username: msg.senderId,
+      }));
+      setChatHistory(updatedHistory);
+
+      setTimeout(() => {
+        if (msgContainer.current) {
+          msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
+        }
+      }, 0);
+    }
+    catch (error) {
+      console.error("Error loading group history:", error);
+    }
+  }
+
   return {
     chatHistory,
     selectedFriend,
+    selectedGroup,
     handleSendMessage,
     handleFriendSelection,
+    handleGroupSelection,
     msgContainer,
   };
 };
