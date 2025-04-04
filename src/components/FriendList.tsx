@@ -23,7 +23,7 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
     const searchUser = async (query: string) => {
         try {
             var users = await UserApi.searchUser(query); 
-            console.log(users); // Например, [{ id: '1', username: 'John' }, { id: '2', username: 'Doe' }]
+            console.log(users); 
             setSearchResults(users); // Устанавливаем массив пользователей в состояние
         } catch (err) {
             console.error('Error searching users:', err);

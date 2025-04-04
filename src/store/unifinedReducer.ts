@@ -13,6 +13,7 @@ export const unifiedApi  = createApi({
         fetchChat: builder.query<Chat[], string>({
             query:(userId) => ({
                 url: 'im/chat-group/user',
+                method: "POST",
                 params: { userId }
             })
         }),

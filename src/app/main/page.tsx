@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import FriendList from '@/components/FriendList';
 import ChatHeader from '@/components/ChatHeader';
 import MessageInput from '@/components/MessageInput';
-import { useFetchFriendsQuery } from '@/store/unifinedReducer';
+import { useFetchChatQuery, useFetchFriendsQuery } from '@/store/unifinedReducer';
 
 import { useChat } from '@/hooks/useChatHook';
 
@@ -18,9 +18,13 @@ import { ListGroup } from '@/components/widgets/groups/ListGroup';
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
-    const { chatHistory, selectedFriend, handleSendMessage, handleFriendSelection, msgContainer } = useChat(user);
+    const { chatHistory, selectedFriend, selectedGroup, handleSendMessage, handleFriendSelection, handleGroupSelection, msgContainer } = useChat(user);
     const { data: friends } = useFetchFriendsQuery(user.id, {
         pollingInterval: 1000, // Запрос каждые 5 секунд
+    });
+
+    const { data: groupList } = useFetchChatQuery(user.id, {
+        pollingInterval: 1000,
     });
 
     const context = useContext(WallpaperContext);
@@ -38,7 +42,7 @@ export default function Home() {
             backgroundPosition: 'center',
             transition: 'background-image 2s ease-in-out'
         }}>
-            <ListGroup/>
+            <ListGroup onSelectedChat={handleGroupSelection} chatList={groupList}/>
             <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
             <main className="message-block">
                 <div className="message-history">
