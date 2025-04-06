@@ -12,7 +12,7 @@ export const ItemGroup: FC<ItemState> = ({ onSelectedChat, chat }) => {
         onSelectedChat(chat);
     }
     return (
-        <div key={chat.chat_id} onClick={handleClick} className="w-16 h-16 bg-black my-1 rounded-md overflow-hidden">
+        <div onClick={handleClick} className="w-16 h-16 bg-black my-1 rounded-md overflow-hidden">
             <button className="w-full h-full relative">
                 <Image
                     src="/logotype-example.svg"
