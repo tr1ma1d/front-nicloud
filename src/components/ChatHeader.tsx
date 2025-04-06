@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import "./styles/chat-header.scss";
 type ChatHeaderProps = {
-    selectedFriend: { username: string } | null;
+    selectedFriend: string | null;
 };
 
 export default function ChatHeader({ selectedFriend }: ChatHeaderProps) {
@@ -13,7 +13,7 @@ export default function ChatHeader({ selectedFriend }: ChatHeaderProps) {
                 </div>
                 <div className="header-username">
                     <span className="header-username__text">
-                        {selectedFriend?.username || 'Select a friend'}
+                        {selectedFriend || 'Select a friend'}
                     </span>
                 </div>
             </div>

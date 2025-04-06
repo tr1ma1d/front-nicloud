@@ -1,7 +1,7 @@
 'use client';
 import type { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import FriendList from '@/components/FriendList';
+import FriendList from '@/components/widgets/friends/FriendList';
 import ChatHeader from '@/components/ChatHeader';
 import MessageInput from '@/components/MessageInput';
 import { useFetchChatQuery, useFetchFriendsQuery } from '@/store/unifinedReducer';
@@ -32,9 +32,9 @@ export default function Home() {
     if (!context) {
         throw new Error('WallpaperContext must be used within a WallpaperProvider');
     }
-
+    
     const { wallpaper } = context;
-
+    const nameChat: string = selectedFriend?.username === null ? selectedGroup?.name ?? "Default Name" : selectedFriend?.username ?? "Default Name";
     return (
         <div className="main-page" style={{
             backgroundImage: `url(${wallpaper.src})`,
@@ -46,7 +46,7 @@ export default function Home() {
             <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
             <main className="message-block">
                 <div className="message-history">
-                    <ChatHeader selectedFriend={selectedFriend} />
+                    <ChatHeader selectedFriend={nameChat} />
                     <MessageContainer msgContainer={msgContainer} chatHistory={chatHistory} />
                 </div>
                 <MessageInput onSendMessage={handleSendMessage} />

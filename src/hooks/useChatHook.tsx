@@ -119,6 +119,7 @@ export const useChat = (
 
   const handleGroupSelection = async (chat: Chat) =>{
     setSelectedGroup(chat);
+    console.log("Chat object:", chat, "ID");
     try{
       const history = await takeChatGroupHistory(chat.chat_id, connection!);
       const updatedHistory = history.map((msg:any) => ({

@@ -1,11 +1,10 @@
-'use client';
 import { Friend } from '@/store/unifinedReducer';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import UserApi from '@/api/UserApi'; // Импорт для `searchUser`
-import { FriendItem } from './widgets/friends/FriendItem';
-import { UserProfile } from './widgets/user/UserProfile';
+import { FriendItem } from './FriendItem';
+import { UserProfile } from '../user/UserProfile';
 
 type FriendListProps = {
     onSelectFriend: (friend: { id: string; username: string }) => void;
@@ -14,7 +13,7 @@ type FriendListProps = {
 
 export default function FriendList({ onSelectFriend, friendList }: FriendListProps) {
     const user = useSelector((state: RootState) => state.user);
-    
+
     const [searchFriend, setSearchFriend] = useState<string>('');
     const [searchResults, setSearchResults] = useState<{ id: string; username: string }[]>([]);
     const [isSearching, setIsSearching] = useState(false);
@@ -22,8 +21,8 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
     // Функция для поиска пользователей
     const searchUser = async (query: string) => {
         try {
-            var users = await UserApi.searchUser(query); 
-            console.log(users); 
+            var users = await UserApi.searchUser(query);
+            console.log(users);
             setSearchResults(users); // Устанавливаем массив пользователей в состояние
         } catch (err) {
             console.error('Error searching users:', err);
@@ -42,17 +41,16 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
         }
     };
 
-    
+
 
     const displayList = searchFriend.trim() ? searchResults : friendList;
 
     return (
         <div className="friend-list">
             <div className="profile">
-                <UserProfile data={user}/>
+                <UserProfile data={user} />
             </div>
 
-            {/* Поле поиска */}
             <input
                 type="text"
                 value={searchFriend}
@@ -61,8 +59,6 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
                 className="search-input"
             />
 
-            {/* Результаты или список друзей */}
-            <div className="friend-list__items">
             <div className="friend-list__items">
                 {isSearching ? (
                     <div>Searching...</div>
@@ -75,7 +71,7 @@ export default function FriendList({ onSelectFriend, friendList }: FriendListPro
                     <div>No users found</div>
                 )}
             </div>
-            </div>
+
         </div>
     );
 }

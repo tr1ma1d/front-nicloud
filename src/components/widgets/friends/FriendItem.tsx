@@ -1,5 +1,5 @@
 import MessageHistory from "@/components/MessageHistory";
-import { Friend } from "@/store/friendListApi";
+import { Friend } from "@/store/unifinedReducer";
 import { FC } from "react";
 
 interface FriendProps {

@@ -7,13 +7,10 @@ const HistoryMessage = ({username} : any) =>{
             <div className="img__container">
                 <Image src = "/logotype-example.svg" alt ="logo" objectFit="cover" layout="fill"/>
             </div>
-            <div className="history_text">
+            <div className="history_text flex items-center">
                 <span className = "his__username">
                     {username}
                 </span>
-                <p className ="his__context">
-                    text
-                </p>
             </div>
 
         </div>
