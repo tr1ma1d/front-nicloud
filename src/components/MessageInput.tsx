@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import Image from 'next/image';
 
 type MessageInputProps = {
@@ -7,6 +7,13 @@ type MessageInputProps = {
 
 export default function MessageInput({ onSendMessage }: MessageInputProps) {
     const [messageInput, setMessageInput] = useState('');
+
+    const handleSendKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === "Enter"){
+            e.preventDefault();
+            handleSubmit();
+        }
+    }
 
     const handleSubmit = () => {
         if (messageInput.trim()) {
@@ -21,6 +28,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
                 type="text"
                 placeholder="Type..."
                 value={messageInput}
+                onKeyDown={handleSendKeyDown}
                 onChange={(e) => setMessageInput(e.target.value)}
             />
             <div className = "send-message__container">
