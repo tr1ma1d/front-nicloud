@@ -18,7 +18,7 @@ import { ListGroup } from '@/components/widgets/groups/ListGroup';
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
-    const { chatHistory, selectedFriend, selectedGroup, handleSendMessage, handleFriendSelection, handleGroupSelection, msgContainer } = useChat(user);
+    const { chatHistory, headerName, handleSendMessage, handleFriendSelection, handleGroupSelection, msgContainer } = useChat(user);
     const { data: friends } = useFetchFriendsQuery(user.id, {
         pollingInterval: 1000, // Запрос каждые 5 секунд
     });
@@ -34,7 +34,7 @@ export default function Home() {
     }
     
     const { wallpaper } = context;
-    const nameChat: string = selectedFriend?.username === null ? selectedGroup?.name ?? "Default Name" : selectedFriend?.username ?? "Default Name";
+    const nameChat: string = headerName;
     return (
         <div className="main-page" style={{
             backgroundImage: `url(${wallpaper.src})`,
