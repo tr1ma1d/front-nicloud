@@ -52,6 +52,7 @@ export const takeChatGroupHistory = async (chatId: string, conn: HubConnection) 
     }
 
     try{
+        console.log(`GET CHAT: ${chatId}`)
         const history = await conn.invoke("GetGroupHistory", chatId);
         return history;
     }

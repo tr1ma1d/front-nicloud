@@ -20,7 +20,7 @@ export const ListGroup: FC<ChatListProps> = ({ onSelectedChat, chatList }) => {
             {chatList?.length ? (
                 chatList.map((chat) => (
                     <ItemGroup
-                        key={chat.chat_id}
+                        key={chat.chatId}
                         chat={chat}
                         onSelectedChat={onSelectedChat}
                     />

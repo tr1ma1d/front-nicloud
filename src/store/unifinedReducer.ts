@@ -28,7 +28,7 @@ export interface Friend {
     avatar: string;
 }
 export interface Chat{
-    chat_id: string;
+    chatId: string;
     name: string;
     created_at: string;
 }

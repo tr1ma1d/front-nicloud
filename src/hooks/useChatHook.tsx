@@ -22,7 +22,7 @@ interface Friend {
   username: string;
 }
 interface Chat{
-  chat_id: string;
+  chatId: string;
   name: string;
 }
 interface UseChatHook {
@@ -120,8 +120,9 @@ export const useChat = (
   const handleGroupSelection = async (chat: Chat) =>{
     setSelectedGroup(chat);
     console.log("Chat object:", chat, "ID");
+    console.log(chat.chatId);
     try{
-      const history = await takeChatGroupHistory(chat.chat_id, connection!);
+      const history = await takeChatGroupHistory(chat.chatId, connection!);
       const updatedHistory = history.map((msg:any) => ({
         ...msg,
         username: msg.senderId,
