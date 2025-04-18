@@ -9,9 +9,10 @@ import { FC, useEffect } from "react";
 type ChatListProps = {
     onSelectedChat: (chat: Chat) => void;
     chatList?: Chat[];
+    onOpenPopup: () => void;
 }
 
-export const ListGroup: FC<ChatListProps> = ({ onSelectedChat, chatList }) => {
+export const ListGroup: FC<ChatListProps> = ({ onSelectedChat, chatList, onOpenPopup }) => {
     useEffect(() => {
         console.log("CHAT ITEM", chatList);
     }, [chatList]);
@@ -28,7 +29,7 @@ export const ListGroup: FC<ChatListProps> = ({ onSelectedChat, chatList }) => {
             ) : (
                 <div></div>
             )}
-            <ButtonAddGroup />
+            <ButtonAddGroup onOpenPopup={onOpenPopup} />
         </div>
     );
 }

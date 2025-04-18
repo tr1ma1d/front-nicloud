@@ -11,14 +11,16 @@ import { useChat } from '@/hooks/useChatHook';
 import ButtonEdit from '@/components/buttons/ButtonEdit';
 import MessageContainer from '@/components/widgets/MessageContainer';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { WallpaperContext } from '@/hooks/useWallpaperContext';
 import { ListGroup } from '@/components/widgets/groups/ListGroup';
+import { PopupGroup } from '@/components/widgets/popups/PopupGroup';
 
 
 export default function Home() {
     const user = useSelector((state: RootState) => state.user);
     const { chatHistory, headerName, handleSendMessage, handleFriendSelection, handleGroupSelection, msgContainer } = useChat(user);
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
     const { data: friends } = useFetchFriendsQuery(user.id, {
         pollingInterval: 1000, // Запрос каждые 5 секунд
     });
@@ -42,7 +44,7 @@ export default function Home() {
             backgroundPosition: 'center',
             transition: 'background-image 2s ease-in-out'
         }}>
-            <ListGroup onSelectedChat={handleGroupSelection} chatList={groupList}/>
+            <ListGroup onSelectedChat={handleGroupSelection} chatList={groupList} onOpenPopup={() => setIsOpenPopup(true)}/>
             <FriendList onSelectFriend={handleFriendSelection} friendList={friends} />
             <main className="message-block">
                 <div className="message-history">
@@ -52,6 +54,7 @@ export default function Home() {
                 <MessageInput onSendMessage={handleSendMessage} />
             </main>
             <ButtonEdit />
+            <PopupGroup isOpen={isOpenPopup} onClose={() => setIsOpenPopup(false)}/>
         </div>
     );
     
