@@ -8,7 +8,7 @@ import { UserProfile } from '../user/UserProfile';
 
 type FriendListProps = {
     onSelectFriend: (friend: { id: string; username: string }) => void;
-    friendList?: Friend[]; // Получаем список друзей из стора (вместо friendList) для отображения в списке друзей.
+    friendList?: Friend[]; 
 };
 
 export default function FriendList({ onSelectFriend, friendList }: FriendListProps) {

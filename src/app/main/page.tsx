@@ -54,7 +54,7 @@ export default function Home() {
                 <MessageInput onSendMessage={handleSendMessage} />
             </main>
             <ButtonEdit />
-            <PopupGroup isOpen={isOpenPopup} onClose={() => setIsOpenPopup(false)}/>
+            <PopupGroup isOpen={isOpenPopup} onClose={() => setIsOpenPopup(false)} friendList={friends}/>
         </div>
     );
     
