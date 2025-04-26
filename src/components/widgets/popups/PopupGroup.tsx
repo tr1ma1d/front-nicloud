@@ -1,3 +1,4 @@
+import GroupService from "@/api/group.services";
 import { ButtonClose } from "@/components/buttons/ButtonCLose";
 import { useForm } from "@/hooks/useForm";
 import { Friend } from "@/store/unifinedReducer";
@@ -21,10 +22,28 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
         group: "",
     })
 
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setIsLoading(true);
+        setError(null);
+        try {
+            const groupData = {
+                name: formData.group.trim(),
+                members: selectedMembers.map(member => member.id)
+            };
+            const groupService = new GroupService();
+            await groupService.createGroup(groupData);
+            onClose();
+        }
+        catch {
+
+        }
+    }
+
     const friendOptions = friendList?.map(friend => ({
         value: friend.id,
         label: friend.username,
-        ...friend 
+        ...friend
     })) || [];
 
     return (
@@ -36,7 +55,7 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
                 <h4 className="text-2xl font-bold text-white mb-6 text-center">
                     Create Group
                 </h4>
-                <form className="px-10">
+                <form className="px-10" onSubmit={handleSubmit}>
                     <div className="mb-6">
                         <input
                             type="text"
@@ -60,8 +79,8 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
                             styles={{
                                 control: (base) => ({
                                     ...base,
-                                    backgroundColor: '#374151', 
-                                    borderColor: '#4B5563', 
+                                    backgroundColor: '#374151',
+                                    borderColor: '#4B5563',
                                     minHeight: '44px'
                                 }),
                                 menu: (base) => ({
@@ -75,7 +94,7 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
                                 }),
                                 multiValue: (base) => ({
                                     ...base,
-                                    backgroundColor: '#1E40AF', 
+                                    backgroundColor: '#1E40AF',
                                 }),
                                 multiValueLabel: (base) => ({
                                     ...base,

@@ -1,6 +1,6 @@
-interface Group{
+interface IGroup{
     id: string,
     name: string,
-    member: string[]
+    members: string[]
 }
-export default Group;
+export default IGroup;
