@@ -60,13 +60,13 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
                             styles={{
                                 control: (base) => ({
                                     ...base,
-                                    backgroundColor: '#374151', // gray-700
-                                    borderColor: '#4B5563', // gray-600
+                                    backgroundColor: '#374151', 
+                                    borderColor: '#4B5563', 
                                     minHeight: '44px'
                                 }),
                                 menu: (base) => ({
                                     ...base,
-                                    backgroundColor: '#374151', // gray-700
+                                    backgroundColor: '#374151'
                                 }),
                                 option: (base, state) => ({
                                     ...base,
@@ -75,7 +75,7 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
                                 }),
                                 multiValue: (base) => ({
                                     ...base,
-                                    backgroundColor: '#1E40AF', // blue-800
+                                    backgroundColor: '#1E40AF', 
                                 }),
                                 multiValueLabel: (base) => ({
                                     ...base,
