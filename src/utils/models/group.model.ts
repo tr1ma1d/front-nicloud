@@ -1,6 +1,6 @@
 interface IGroup{
     id: string,
-    name: string,
-    members: string[]
+    chatname: string,
+    membersId: string[]
 }
 export default IGroup;

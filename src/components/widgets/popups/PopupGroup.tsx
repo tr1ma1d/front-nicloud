@@ -9,9 +9,15 @@ interface PopupProps {
     isOpen: boolean;
     onClose: () => void;
     friendList?: Friend[];
+    currentUserId: string; 
 }
 
-export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
+export const PopupGroup: FC<PopupProps> = ({ 
+    isOpen, 
+    onClose, 
+    friendList,
+    currentUserId 
+}) => {
     if (!isOpen) return null;
 
     const [selectedMembers, setSelectedMembers] = useState<Friend[]>([]);
@@ -20,25 +26,43 @@ export const PopupGroup: FC<PopupProps> = ({ isOpen, onClose, friendList }) => {
 
     const { formData, handleChange } = useForm({
         group: "",
-    })
+    });
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setIsLoading(true);
         setError(null);
+        
         try {
-            const groupData = {
-                name: formData.group.trim(),
-                members: selectedMembers.map(member => member.id)
-            };
-            const groupService = new GroupService();
-            await groupService.createGroup(groupData);
-            onClose();
-        }
-        catch {
+            // Валидация данных
+            if (!formData.group.trim()) {
+                throw new Error("Group name is required");
+            }
 
+            if (selectedMembers.length === 0) {
+                throw new Error("Select at least one member");
+            }
+
+            const groupData = {
+                chatname: formData.group.trim(),
+                membersId: selectedMembers.map(member => member.id),
+            };
+
+            console.log("Sending group data:", groupData); // Логируем данные перед отправкой
+
+            const groupService = new GroupService();
+            const response = await groupService.createGroup(groupData, currentUserId);
+            
+            console.log("Response:", response); // Логируем ответ
+            
+            onClose();
+        } catch (error: any) {
+            console.error("Error creating group:", error);
+            setError(error.message || "Failed to create group");
+        } finally {
+            setIsLoading(false);
         }
-    }
+    };
 
     const friendOptions = friendList?.map(friend => ({
         value: friend.id,
