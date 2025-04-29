@@ -12,7 +12,11 @@ type ChatListProps = {
     onOpenPopup: () => void;
 }
 
-export const ListGroup: FC<ChatListProps> = ({ onSelectedChat, chatList, onOpenPopup }) => {
+export const ListGroup: FC<ChatListProps> = ({
+    onSelectedChat,
+    chatList,
+    onOpenPopup,
+}) => {
     useEffect(() => {
         console.log("CHAT ITEM", chatList);
     }, [chatList]);

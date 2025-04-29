@@ -11,7 +11,10 @@ type FriendListProps = {
     friendList?: Friend[]; 
 };
 
-export default function FriendList({ onSelectFriend, friendList }: FriendListProps) {
+export default function FriendList({ 
+        onSelectFriend, 
+        friendList 
+    }: FriendListProps) {
     const user = useSelector((state: RootState) => state.user);
 
     const [searchFriend, setSearchFriend] = useState<string>('');

@@ -33,7 +33,9 @@ interface UseChatHook {
   handleSendMessage: (message: string) => Promise<void>;
   handleFriendSelection: (friend: Friend) => Promise<void>;
   handleGroupSelection: (chat: Chat) => Promise<void>;
+  handleSendGroup: (message: string) => Promise<void>;
   msgContainer: React.RefObject<HTMLDivElement>;
+  currentChatType: string;
 }
 
 export const useChat = (
@@ -45,12 +47,12 @@ export const useChat = (
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<Chat | undefined>();
   const [headerName, setHeaderName] = useState<string>("Default");
-
+  const [currentChatType, setCurrentChatType] = useState<'direct' | 'group'>('direct');
   const router = useRouter();
   const msgContainer = useRef<HTMLDivElement | null>(null);
 
   const selectedFriendRef = useRef<Friend | undefined>();
-
+  const selectedGroupRef = useRef<Chat | undefined>();
   useEffect(() => {
     if (user == null) {
       router.replace("/auth");
@@ -69,12 +71,16 @@ export const useChat = (
               "ReceiverFront", selectedFriendRef.current?.id,
               "ReceiverBack", receiverId);
 
-            const isRelevant =
+            const isDirect =
               selectedFriendRef.current &&
               ((selectedFriendRef.current.id === senderId && user.id === receiverId) ||
                 (selectedFriendRef.current.id === receiverId && user.id === senderId));
 
-            if (isRelevant) {
+            const isGroup =
+              selectedGroupRef.current &&
+              selectedGroupRef.current.chatId === receiverId;
+
+            if (isDirect || isGroup) {
               const newMessage: ChatMessage = {
                 id: crypto.randomUUID(),
                 senderId,
@@ -82,6 +88,7 @@ export const useChat = (
                 content,
               };
               setChatHistory((prevMessages) => [...prevMessages, newMessage]);
+              console.log(chatHistory);
             }
           });
         } catch (err) {
@@ -114,8 +121,18 @@ export const useChat = (
       }
     }
   };
+  const handleSendGroup = async (message: string) => {
+    if (connection && selectedGroup) {
+      try {
+        await connection.invoke("SendChatMessage", selectedGroup.chatId, message);
+      } catch (err) {
+        console.error("Error sending message:", err);
+      }
+    }
+  };
 
   const handleFriendSelection = async (friend: Friend) => {
+    setCurrentChatType('direct');
     setSelectedFriend(friend);
     selectedFriendRef.current = friend;
     setHeaderName(friend.username);
@@ -138,8 +155,11 @@ export const useChat = (
   };
 
   const handleGroupSelection = async (chat: Chat) => {
+    setCurrentChatType('group');
     setSelectedGroup(chat);
     setHeaderName(chat.name);
+  
+    selectedGroupRef.current = chat;
     console.log("Chat object:", chat, "ID");
     console.log(chat.chatId);
     try {
@@ -167,6 +187,8 @@ export const useChat = (
     handleSendMessage,
     handleFriendSelection,
     handleGroupSelection,
+    handleSendGroup,
     msgContainer,
+    currentChatType
   };
 };

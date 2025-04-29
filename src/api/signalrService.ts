@@ -50,10 +50,10 @@ export const takeChatGroupHistory = async (chatId: string, conn: HubConnection) 
         console.error("Error on connection to server");
         throw new Error("Error on connection to server");
     }
-
     try{
         console.log(`GET CHAT: ${chatId}`)
         const history = await conn.invoke("GetGroupHistory", chatId);
+        console.log("HIST: ", history)
         return history;
     }
     catch(err){
