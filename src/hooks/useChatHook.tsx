@@ -166,7 +166,7 @@ export const useChat = (
       const history = await takeChatGroupHistory(chat.chatId, connection!);
       const updatedHistory = history.map((msg: any) => ({
         ...msg,
-        username: msg.senderId,
+        username: msg.username,
       }));
       setChatHistory(updatedHistory);
 
