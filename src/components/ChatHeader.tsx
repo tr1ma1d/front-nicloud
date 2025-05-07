@@ -17,14 +17,6 @@ export default function ChatHeader({ selectedFriend }: ChatHeaderProps) {
                     </span>
                 </div>
             </div>
-            <div className="header-button_action">
-                <button className="call">
-                    <Image src="/phone.svg" alt="phone" layout="fill" objectFit="contain" />
-                </button>
-                <button className="option">
-                    <Image src="/dot.svg" alt="option" layout="fill" />
-                </button>
-            </div>
         </div>
     );
 }
