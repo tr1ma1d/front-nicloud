@@ -7,8 +7,8 @@ $username-color: #d2d2d2;
     &:hover{
         transform: scale(1.05);
     }
-    margin: 10px 20px;
-    background-color: $bg;
+    width: 100%;
+    margin: 10px 0;
     border-radius: 5px;
     display: flex;
     padding: 10px 10px;
@@ -28,7 +28,6 @@ $username-color: #d2d2d2;
         justify-content: center;
     }
     .his__username{
-        color: $username-color;
         font-size: 18px;
         line-height: 14px;
         font-weight: 200;

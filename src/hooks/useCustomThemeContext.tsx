@@ -1,22 +1,20 @@
 'use client';
-import { createContext, FC, ReactNode, useState } from "react";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
 
-interface Wallpaper {
-    title: string;
-    src: string;
-}
-
-interface WallpaperContextProps {
+interface CustomThemeContext {
     wallpaper: Wallpaper;
-    allWallpapers: Wallpaper[]; // Добавляем список всех обоев
+    theme: Theme;
+    allWallpapers: Wallpaper[];
+    changeTheme: (title: 'light' | 'dark') => void;
     changeWallpaper: (title: string, src: string) => void;
     loadWallpaper: (file: File) => void;
 }
 
-export const WallpaperContext = createContext<WallpaperContextProps | undefined>(undefined);
+export const CustomThemeContext = createContext<CustomThemeContext | undefined>(undefined);
 
-export const WallpaperProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const CustomThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [wallpaper, setWallpaper] = useState<Wallpaper>({ title: 'Wallpaper 1', src: '/wallpapers/bg.jpg' });
+    const [theme, setTheme] = useState<Theme>({ title: 'light' });
     const [allWallpapers, setAllWallpapers] = useState<Wallpaper[]>([ // Состояние всех обоев
         { title: 'Wallpaper 1', src: '/wallpapers/A.png' },
         { title: 'Wallpaper 3', src: '/wallpapers/AB.jpg' },
@@ -25,10 +23,23 @@ export const WallpaperProvider: FC<{ children: ReactNode }> = ({ children }) => 
         { title: 'Wallpaper 6', src: '/wallpapers/B.png' },
         { title: 'Wallpaper 7', src: '/wallpapers/bg.jpg' }
     ]);
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light' || savedTheme === 'dark') {
+                setTheme({ title: savedTheme });
+            }
+        }
+    }, []);
+    const changeTheme = (title: 'light' | 'dark') => {
+        localStorage.setItem('theme', title);
+        setTheme({ title });
+    }
 
     const changeWallpaper = (title: string, src: string) => {
         setWallpaper({ title, src });
     };
+
 
     const loadWallpaper = (file: File) => {
         const reader = new FileReader();
@@ -42,8 +53,8 @@ export const WallpaperProvider: FC<{ children: ReactNode }> = ({ children }) => 
     };
 
     return (
-        <WallpaperContext.Provider value={{ wallpaper, allWallpapers, changeWallpaper, loadWallpaper }}>
+        <CustomThemeContext.Provider value={{ wallpaper, theme, allWallpapers, changeTheme, changeWallpaper, loadWallpaper }}>
             {children}
-        </WallpaperContext.Provider>
+        </CustomThemeContext.Provider>
     );
 };

@@ -9,7 +9,7 @@ interface FriendProps {
 
 export const FriendItem: FC<FriendProps> = ({ data, onSelectFriend }) => {
     return (
-        <div key={data.id} onClick={() => onSelectFriend(data)} className="friend-list__item">
+        <div key={data.id} onClick={() => onSelectFriend(data)}>
             <MessageHistory username={data.username} />
         </div>
     );

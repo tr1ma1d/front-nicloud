@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { WallpaperContext } from "@/hooks/useWallpaperContext";
+import { CustomThemeContext } from "@/hooks/useCustomThemeContext";
 import { WallpaperItem } from "@/components/WallpaperItem";
 import { UploadPaper } from "./UploadPaper";
 
@@ -7,7 +7,7 @@ export const WallpaperList = () => {
     const [offset, setOffset] = useState(0);
     const limit = 3;
 
-    const context = useContext(WallpaperContext);
+    const context = useContext(CustomThemeContext);
     if (!context) {
         throw new Error('WallpaperContext must be used within a WallpaperProvider');
     }

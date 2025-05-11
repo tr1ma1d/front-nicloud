@@ -1,13 +1,14 @@
 
-import { WallpaperProvider } from '@/hooks/useWallpaperContext';
+
+import { CustomThemeProvider } from '@/hooks/useCustomThemeContext';
 import './style-main.scss';
 
 export default function RootLayout({ 
     children, 
 }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <WallpaperProvider>
+        <CustomThemeProvider>
             {children}
-        </WallpaperProvider>
+        </CustomThemeProvider>
     );
 };

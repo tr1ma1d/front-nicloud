@@ -4,7 +4,8 @@ import { ItemGroup } from "./ItemGroup";
 import { Chat } from "@/store/unifinedReducer";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { FC, useEffect } from "react";
+import { FC, useContext, useEffect } from "react";
+import { CustomThemeContext } from "@/hooks/useCustomThemeContext";
 
 type ChatListProps = {
     onSelectedChat: (chat: Chat) => void;
@@ -20,8 +21,13 @@ export const ListGroup: FC<ChatListProps> = ({
     useEffect(() => {
         console.log("CHAT ITEM", chatList);
     }, [chatList]);
+    const context = useContext(CustomThemeContext);
+    if (!context) {
+        throw new Error('ThemeToggle must be used within a CustomThemeProvider');
+    }
+    const { theme } = context;
     return (
-        <div className="bg-white/15 h-[820px] w-[100px] rounded-xl backdrop-blur-sm border-2 border-white flex flex-col items-center box-border py-4">
+        <div className={`bg-white/15 h-[820px] w-[100px] rounded-xl backdrop-blur-sm border-2 ${theme.title === 'light' ? "border-white" : "border-gray-700"} flex flex-col items-center box-border py-4`}>
             {chatList?.length ? (
                 chatList.map((chat) => (
                     <ItemGroup

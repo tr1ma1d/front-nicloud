@@ -1,10 +1,11 @@
 import { Friend } from '@/store/unifinedReducer';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import UserApi from '@/api/UserApi'; // Импорт для `searchUser`
 import { FriendItem } from './FriendItem';
 import { UserProfile } from '../user/UserProfile';
+import { CustomThemeContext } from '@/hooks/useCustomThemeContext';
 
 type FriendListProps = {
     onSelectFriend: (friend: { id: string; username: string }) => void;
@@ -43,14 +44,18 @@ export default function FriendList({
             setSearchResults([]); // Сбрасываем результаты поиска
         }
     };
-
+    const context = useContext(CustomThemeContext);
+    if (!context) {
+        throw new Error('ThemeToggle must be used within a CustomThemeProvider');
+    }
+    const { theme } = context;
 
 
     const displayList = searchFriend.trim() ? searchResults : friendList;
 
     return (
-        <div className="friend-list">
-            <div className="profile">
+        <div className="max-w-64 h-5/6 w-full bg-black/50 rounded-3xl backdrop-blur-sm flex flex-col items-center overflow-hidden p-2">
+            <div className={`flex w-60 h-56 ${theme.title === 'light' ? "bg-[#2D2D2D] text-white" : "bg-white text-black"} flex-col justify-center items-center rounded-3xl mb-2`}>
                 <UserProfile data={user} />
             </div>
 
@@ -59,10 +64,10 @@ export default function FriendList({
                 value={searchFriend}
                 onChange={handleSearchChange}
                 placeholder="Search friends or users..."
-                className="search-input"
+                className="flex justify-center w-full h-10 focus:outline-none text-black px-2.5 rounded-3xl"
             />
 
-            <div className="friend-list__items">
+            <div className="w-full">
                 {isSearching ? (
                     <div>Searching...</div>
                 ) : displayList?.length ? (

@@ -11,11 +11,12 @@ import { useChat } from '@/hooks/useChatHook';
 import ButtonEdit from '@/components/buttons/ButtonEdit';
 import MessageContainer from '@/components/widgets/MessageContainer';
 
-import { useContext, useState } from 'react';
-import { WallpaperContext } from '@/hooks/useWallpaperContext';
+import { useContext, useEffect, useState } from 'react';
+import { CustomThemeContext } from '@/hooks/useCustomThemeContext';
 import { ListGroup } from '@/components/widgets/groups/ListGroup';
 import { PopupGroup } from '@/components/widgets/popups/PopupGroup';
 import MessageInputGroup from '@/components/input/MessageInputGroup';
+import { useRouter } from 'next/navigation';
 
 
 export default function Home() {
@@ -25,16 +26,21 @@ export default function Home() {
     const { data: friends } = useFetchFriendsQuery(user.id, {
         pollingInterval: 1000,
     });
-
+    const router = useRouter();
     const { data: groupList } = useFetchChatQuery(user.id, {
         pollingInterval: 1000,
     });
 
-    const context = useContext(WallpaperContext);
+    const context = useContext(CustomThemeContext);
 
     if (!context) {
         throw new Error('WallpaperContext must be used within a WallpaperProvider');
     }
+    useEffect(() => {
+        if(user.id === '' || (user.username === '' && user.password === '')){
+            router.push('/auth');
+        }
+    }, [])
 
     const { wallpaper } = context;
     const nameChat: string = headerName;
@@ -53,8 +59,8 @@ export default function Home() {
                 onSelectFriend={handleFriendSelection}
                 friendList={friends}
             />
-            <main className="message-block">
-                <div className="message-history">
+            <main className="max-w-[800px] min-w-[400px] w-full overflow-hidden flex flex-col justify-between h-5/6 rounded-3xl backdrop-blur-sm">
+                <div className="w-full h-[78vh] ">
                     <ChatHeader selectedFriend={nameChat} />
                     <MessageContainer msgContainer={msgContainer} chatHistory={chatHistory} />
                 </div>
