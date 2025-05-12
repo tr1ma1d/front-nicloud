@@ -36,11 +36,11 @@ export default function Home() {
     if (!context) {
         throw new Error('WallpaperContext must be used within a WallpaperProvider');
     }
-    useEffect(() => {
-        if(user.id === '' || (user.username === '' && user.password === '')){
-            router.push('/auth');
-        }
-    }, [])
+    // useEffect(() => {
+    //     if(user.id === '' || (user.username === '' && user.password === '')){
+    //         router.push('/auth');
+    //     }
+    // }, [])
 
     const { wallpaper } = context;
     const nameChat: string = headerName;
