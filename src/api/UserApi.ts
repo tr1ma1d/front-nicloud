@@ -1,4 +1,5 @@
 import { User } from "@/core/User"; // Импортируем класс User
+import { UserState } from "@/utils/models/user.model";
 import axios from "axios";
 
 export default class AuthApi {
@@ -43,6 +44,17 @@ export default class AuthApi {
             console.error('Login failed:', error);
             throw new Error('Login failed');
         }
+    }
+    static async update(user: UserState): Promise<UserState>{
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_MAIN_API}/im/user/update`, {
+            id: user.id,
+            username: user.username,
+            password: user.password,
+            email: user.email,
+            phone: user.phone
+        });
+        const data = response.data;
+        return User.fromJSON(data);
     }
 
 

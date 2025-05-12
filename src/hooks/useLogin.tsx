@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import AuthApi from "@/api/UserApi";
 import { AppDispatch } from "@/store/store";
 import { setUser } from "@/store/userSlice";
-import { UserState } from "@/store/userSlice";
+import { UserState } from "@/utils/models/user.model";
+
 
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -19,9 +20,9 @@ export const useLogin = () => {
         username: user.username,
         password: user.password,
         email: user.email,
-        phone: user.phone,
+        phone: user.phone
       };
-
+      console.log(userData);
       dispatch(setUser(userData));
       router.replace("/main");
     } catch (error) {
